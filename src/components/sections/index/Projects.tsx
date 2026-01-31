@@ -60,10 +60,19 @@ export default function Projects() {
     {
       title: "SurgeCheats",
       tags: "React, Next.js, TailwindCSS",
-      description: "A cheating website made for a customer.",
+      description: "A website made for a customer. On this website i've used Sellhub's API to embed the products and allow users to purchase them.",
       logo: "https://files.catbox.moe/c31u33.ico",
       modalImage: "https://files.catbox.moe/aguwvs.png",
       link: "https://surgecheats.fun",
+      isRed: false
+    },
+    {
+      title: "ezboosts",
+      tags: "E-commerce, API Integration",
+      description: "A specialized platform for Discord enhancements. Developed for a client to demonstrate the power of Swiftly's embed API, enabling seamless checkout experiences directly within external sites.",
+      logo: "https://ezboosts.vercel.app/favicon.ico",
+      modalImage: "https://files.catbox.moe/9eenak.png",
+      link: "https://ezboosts.vercel.app/",
       isRed: false
     }
   ];

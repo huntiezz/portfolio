@@ -119,7 +119,7 @@ export default function MusicPlayer() {
         <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="fixed bottom-6 right-6 z-50"
+            className="fixed bottom-6 right-6 z-50 hidden md:block"
         >
             <div className="hover-card flex items-center gap-3 p-3 bg-gray-200 dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/10 rounded-lg shadow-2xl overflow-hidden max-w-sm transition-all duration-300 hover:scale-105 group">
 

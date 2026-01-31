@@ -53,10 +53,27 @@ export default function Experience() {
                         ]}
                         cardImage="https://swiftly.gg/favicon.png"
                         cardDescription={<>Founder of <a className="underline hover:text-white transition-all" href="https://swiftly.gg/" target="_blank">Swiftly.gg</a>, an e-commerce platform where I manage development, design, and AI integration. Building hands-on experience in entrepreneurship and digital product scaling.</>}
-                        media={[]}
+                        media={["https://files.catbox.moe/mqypag.png"]}
                         myRole="Founder"
                         timeline="October 2025 - Present"
                         delay={0.1}
+                        gradient="bg-gradient-to-br"
+                    />
+                    <ExperienceCard
+                        url="https://www.bytehack.net/"
+                        title="ByteHack"
+                        fullDescription={[
+                            "Developing and maintaining ByteHack, a private forum software and cheating community.",
+                            "Managed a growing community of 400+ users and 100+ active threads.",
+                            "Focused on forum feature development, security, and platform stability.",
+                            "Btw, landing page looks ugly cause I only focused on forum."
+                        ]}
+                        cardImage="https://www.bytehack.net/logo.png"
+                        cardDescription={<>Developer for <a className="underline hover:text-white transition-all" href="https://www.bytehack.net/" target="_blank">ByteHack</a>, a private cheating forum software. Managing 100+ threads and 400+ users while focusing on software development and platform stability.</>}
+                        media={["https://files.catbox.moe/yosnlg.png", "https://files.catbox.moe/qnyprs.png"]}
+                        myRole="Developer"
+                        timeline="December 2025 - Present"
+                        delay={0.2}
                         gradient="bg-gradient-to-br"
                     />
                     <ExperienceCard
@@ -69,10 +86,10 @@ export default function Experience() {
                         ]}
                         cardImage="https://files.catbox.moe/4m17zp.png"
                         cardDescription={<>Worked as a Prompt Engineer at Safello, contributing to AI prompt development for <a className="underline hover:text-white transition-all" href="https://wutao.app" target="_blank">Wu-Tao</a>. Gained practical experience in AI-driven product development within a leading fintech environment.</>}
-                        media={[]}
+                        media={["https://files.catbox.moe/v66m59.png"]}
                         myRole="Prompt Engineer"
                         timeline="October 2025 - January 2026"
-                        delay={0.2}
+                        delay={0.3}
                         gradient="bg-gradient-to-br"
                     />
                     <ExperienceCard
@@ -88,7 +105,7 @@ export default function Experience() {
                         media={[]}
                         myRole="QA Intern"
                         timeline="September 2025 - October 2025"
-                        delay={0.3}
+                        delay={0.4}
                         gradient="bg-gradient-to-br"
                     />
                     <ExperienceCard
@@ -104,7 +121,7 @@ export default function Experience() {
                         media={["https://files.catbox.moe/1ggqx8.mp4"]}
                         myRole="Developer"
                         timeline="April 2025 - Oct 2025"
-                        delay={0.4}
+                        delay={0.5}
                         gradient="bg-gradient-to-br"
                     />
                     <ExperienceCard
@@ -117,10 +134,10 @@ export default function Experience() {
                         ]}
                         cardImage="https://files.catbox.moe/00ubl5.webp"
                         cardDescription={<>Co-owned and developed an internal C++ cheat for Counter Strike 2. Partnered with <a className="underline hover:text-white transition-all" href="https://undetek.com" target="_blank">Undetek</a> regarding marketing.</>}
-                        media={[]}
+                        media={["https://luminacheats.com/wp-content/uploads/2025/06/free-cs2-cheats.webp"]}
                         myRole="Co-Owner & Developer"
                         timeline="June 2025 - August 2025"
-                        delay={0.5}
+                        delay={0.6}
                         gradient="bg-gradient-to-br"
                     />
                     <ExperienceCard
@@ -133,10 +150,10 @@ export default function Experience() {
                         ]}
                         cardImage="https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png"
                         cardDescription="A webhook spammer website, my first ever website. Created to learn the basics of web development."
-                        media={[]}
+                        media={["https://files.catbox.moe/ym7uoc.png"]}
                         myRole="Developer"
                         timeline="April 2025"
-                        delay={0.55}
+                        delay={0.65}
                         gradient="bg-gradient-to-br"
                     />
                     <ExperienceCard
@@ -149,10 +166,10 @@ export default function Experience() {
                         ]}
                         cardImage="https://imagedelivery.net/HL_Fwm__tlvUGLZF2p74xw/a617759f-4172-4bf8-bf1d-b4fd6e150800/public"
                         cardDescription="Founded and operated a Fortnite cheat selling business from September to December 2024. Earned $4,000 in revenue and worked alongside a developer to deliver quality services."
-                        media={[]}
+                        media={["https://files.catbox.moe/u72n31.png"]}
                         myRole="Founder"
                         timeline="Sept 2024 - Dec 2024"
-                        delay={0.6}
+                        delay={0.7}
                         gradient="bg-gradient-to-br"
                     />
 

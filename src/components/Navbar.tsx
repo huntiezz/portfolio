@@ -90,24 +90,24 @@ export default function Navbar() {
                 animate={{ transform: 'translateY(0px)', opacity: 100 }}
                 transition={{ duration: 0.5, delay: 0.1, ease: [0.39, 0.21, 0.12, 0.96], }}
             >
-                <nav ref={containerRef} className="flex h-14 max-w-[46rem] w-screen bg-gradient-to-br from-primary to-secondary rounded-lg border-1 border-accent px-4 shadow-2xl">
+                <nav ref={containerRef} className="flex h-14 max-w-[46rem] w-screen bg-gradient-to-br from-primary to-secondary rounded-xl border-1 border-accent px-2 sm:px-4 shadow-2xl overflow-hidden">
                     <div className="flex flex-row items-center justify-between w-full">
-                        <div className="flex flex-row gap-1 sm:gap-2 items-center">
+                        <div className="flex flex-row gap-0.5 sm:gap-2 items-center">
                             <img alt="" draggable={false} className="h-8 w-8 sm:h-10 sm:w-10" src="/me.png" />
-                            <button onClick={handleClickScroll} className="hover-card group relative p-1.5 sm:p-2 duration-300 text-sm sm:text-lg font-medium hover:bg-secondary rounded-md overflow-hidden">
+                            <button onClick={handleClickScroll} className="hover-card group relative p-1.5 sm:p-2 duration-300 text-[13px] sm:text-lg font-medium hover:bg-secondary rounded-md overflow-hidden">
                                 <div className="pointer-events-none absolute -inset-px rounded-md opacity-0 transition duration-300 group-hover:opacity-100 z-10"
                                     style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                                 />
                                 <span className="relative z-20">About</span>
                             </button>
-                            <button onClick={handleClickScroll2} className="hover-card group relative p-1.5 sm:p-2 duration-300 text-sm sm:text-lg font-medium hover:bg-secondary rounded-md overflow-hidden">
+                            <button onClick={handleClickScroll2} className="hover-card group relative p-1.5 sm:p-2 duration-300 text-[13px] sm:text-lg font-medium hover:bg-secondary rounded-md overflow-hidden">
                                 <div className="pointer-events-none absolute -inset-px rounded-md opacity-0 transition duration-300 group-hover:opacity-100 z-10"
                                     style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                                 />
                                 <span className="relative z-20">Experience</span>
                             </button>
                         </div>
-                        <div className="min-[330px]:flex hidden flex-row gap-2 items-center">
+                        <div className="flex flex-row gap-1 sm:gap-2 items-center">
                             <a
                                 href="https://github.com/huntiezz/portfolio"
                                 target="_blank"
