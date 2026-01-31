@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --text: #000000;
+    --primary: #ffff;
+    --middle: #f0f0f0;
+    --secondary: #e0e0e0;
+    --accent: #d0d0d0;
+  }
+
+  .dark {
+    --background: #0a0a0a;
+    --text: #ffffff;
+    --primary: #111111;
+    --middle: #181818;
+    --secondary: #1F1F1F;
+    --accent: #333333;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+
+[data-transition-direction="dark-to-light"]::view-transition-new(root) {
+  animation: wipe-tl-br 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+[data-transition-direction="light-to-dark"]::view-transition-new(root) {
+  animation: wipe-br-tl 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes wipe-tl-br {
+  from {
+    clip-path: circle(0% at 0% 0%);
+  }
+
+  to {
+    clip-path: circle(150% at 0% 0%);
+  }
+}
+
+@keyframes wipe-br-tl {
+  from {
+    clip-path: circle(0% at 100% 100%);
+  }
+
+  to {
+    clip-path: circle(150% at 100% 100%);
+  }
+}
+
+.media-carousel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.media-carousel::-webkit-scrollbar {
+  display: none;
+}
