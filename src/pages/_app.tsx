@@ -4,6 +4,8 @@ import { NextSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 
+import MusicPlayer from "@/components/MusicPlayer";
+
 export default function App({ Component, pageProps }: AppProps) {
   let router = useRouter();
 
@@ -28,6 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
           }}
         />
         <Component {...pageProps} />
+        <MusicPlayer />
       </ThemeProvider>
     </>
   );
