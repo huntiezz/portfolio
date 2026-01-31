@@ -3,7 +3,7 @@ import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import TimeModal from "./TimeModal";
 import BirthdayModal from "./BirthdayModal";
-import { Clock, Cake } from "lucide-react";
+import { Clock, Cake, Github } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
@@ -108,6 +108,20 @@ export default function Navbar() {
                             </button>
                         </div>
                         <div className="min-[330px]:flex hidden flex-row gap-2 items-center">
+                            <a
+                                href="https://github.com/huntiezz/portfolio"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover-card group relative p-2 hover:bg-secondary rounded-lg duration-300 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white overflow-hidden flex items-center gap-2"
+                                aria-label="View source code"
+                                title="View Source Code"
+                            >
+                                <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
+                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                                />
+                                <Github className="w-5 h-5 relative z-20" />
+                                <span className="relative z-20 font-medium text-sm hidden sm:inline">Source</span>
+                            </a>
                             <button
                                 onClick={() => setTimeModalOpen(true)}
                                 className="hover-card group relative p-2 hover:bg-secondary rounded-lg duration-300 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white overflow-hidden"
