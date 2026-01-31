@@ -33,7 +33,18 @@ const PLAYLIST: Song[] = [
     { title: "What they say - Nettspend", src: "/What they say - Nettspend.mp3", cover: "https://i.scdn.co/image/ab67616d00001e022b0ba8a9db30e278d33a479d" }
 ];
 
+const shuffleArray = (array: Song[]) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+};
+
 export default function MusicPlayer() {
+    const [playlist, setPlaylist] = useState<Song[]>(PLAYLIST);
+    const [mounted, setMounted] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [volume, setVolume] = useState(0.5);
@@ -41,6 +52,9 @@ export default function MusicPlayer() {
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
+        setPlaylist(shuffleArray(PLAYLIST));
+        setMounted(true);
+
         audioRef.current = new Audio();
         audioRef.current.volume = volume;
 
@@ -57,15 +71,15 @@ export default function MusicPlayer() {
     }, []);
 
     useEffect(() => {
-        if (PLAYLIST.length > 0 && audioRef.current) {
-            audioRef.current.src = PLAYLIST[currentSongIndex].src;
+        if (playlist.length > 0 && audioRef.current) {
+            audioRef.current.src = playlist[currentSongIndex].src;
             // Reset image error for the new song
             setImageError(prev => ({ ...prev, [currentSongIndex]: false }));
             if (isPlaying) {
                 audioRef.current.play().catch(e => console.log("Playback error:", e));
             }
         }
-    }, [currentSongIndex]);
+    }, [currentSongIndex, playlist]);
 
     useEffect(() => {
         if (audioRef.current) {
@@ -78,27 +92,27 @@ export default function MusicPlayer() {
     }, [isPlaying]);
 
     const handlePlayPause = () => {
-        if (PLAYLIST.length === 0) return;
+        if (playlist.length === 0) return;
         setIsPlaying(!isPlaying);
     };
 
     const handleNext = () => {
-        if (PLAYLIST.length === 0) return;
-        setCurrentSongIndex((prev) => (prev + 1) % PLAYLIST.length);
+        if (playlist.length === 0) return;
+        setCurrentSongIndex((prev) => (prev + 1) % playlist.length);
     };
 
     const handlePrev = () => {
-        if (PLAYLIST.length === 0) return;
-        setCurrentSongIndex((prev) => (prev - 1 + PLAYLIST.length) % PLAYLIST.length);
+        if (playlist.length === 0) return;
+        setCurrentSongIndex((prev) => (prev - 1 + playlist.length) % playlist.length);
     };
 
     const handleImageError = (index: number) => {
         setImageError(prev => ({ ...prev, [index]: true }));
     }
 
-    if (PLAYLIST.length === 0) return null;
+    if (!mounted || playlist.length === 0) return null;
 
-    const currentSong = PLAYLIST[currentSongIndex];
+    const currentSong = playlist[currentSongIndex];
     const coverPath = currentSong.cover || "/Music.png";
 
     return (
