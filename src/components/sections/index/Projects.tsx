@@ -88,7 +88,7 @@ export default function Projects() {
         viewport={{ amount: 0.1, once: true }}
       >
         <div className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-          style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+          style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
         />
 
         <div className="p-8 relative z-20">
@@ -107,7 +107,7 @@ export default function Projects() {
               >
                 <div className="hover-card relative group h-full transition-[box-shadow] duration-200 rounded-md">
                   <div className="pointer-events-none absolute -inset-px rounded-md opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                    style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                    style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                   />
                   {project.link && !project.modalImage ? (
                     <Link href={project.link} className="block h-full relative z-0">

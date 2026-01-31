@@ -128,7 +128,7 @@ export default function About() {
             viewport={{ amount: 0.1, once: true }}
           >
             <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-              style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+              style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
             />
 
             <div className="flex flex-wrap gap-2 mb-6 p-1 bg-gray-200 dark:bg-black/20 rounded-lg backdrop-blur-sm relative z-20">
@@ -197,7 +197,7 @@ export default function About() {
                         transition={{ duration: 0.3, delay: index * 0.05 }}
                       >
                         <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                          style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                          style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                         />
                         <div className="flex-shrink-0 relative z-20">{tech.icon}</div>
                         <span className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-gray-800 dark:group-hover:text-white/90 truncate relative z-20">
@@ -228,7 +228,7 @@ export default function About() {
                         transition={{ duration: 0.3, delay: index * 0.05 }}
                       >
                         <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                          style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                          style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                         />
                         <div className="flex-shrink-0 relative z-20">{tech.icon}</div>
                         <span className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-gray-800 dark:group-hover:text-white/90 truncate relative z-20">
@@ -259,7 +259,7 @@ export default function About() {
                         transition={{ duration: 0.3, delay: index * 0.05 }}
                       >
                         <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                          style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                          style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                         />
                         <div className="flex-shrink-0 relative z-20">{tech.icon}</div>
                         <span className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-gray-800 dark:group-hover:text-white/90 truncate relative z-20">
@@ -290,7 +290,7 @@ export default function About() {
                         transition={{ duration: 0.3, delay: index * 0.05 }}
                       >
                         <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                          style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                          style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                         />
                         <div className="flex-shrink-0 relative z-20">{tech.icon}</div>
                         <span className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-gray-800 dark:group-hover:text-white/90 truncate relative z-20">

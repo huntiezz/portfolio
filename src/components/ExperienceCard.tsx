@@ -20,7 +20,7 @@ export default function ExperienceCard({ url, title, fullDescription, cardDescri
             >
                 <div className={`hover-card relative transition-[box-shadow] duration-200 p-4 flex md:flex-row flex-col gap-6 ${gradient} from-primary to-secondary rounded-lg border-1 border-accent shadow-2xl shadow-background items-center !transform-none`}>
                     <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                        style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                        style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                     />
 
                     <img alt="" draggable={false} className="rounded-lg md:h-[14rem] sm:h-[12rem] h-[10rem] duration-300" src={cardImage} />

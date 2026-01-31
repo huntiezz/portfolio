@@ -12,6 +12,7 @@
     --middle: #f0f0f0;
     --secondary: #e0e0e0;
     --accent: #d0d0d0;
+    --glow-color: rgba(0,0,0,0.1);
   }
 
   .dark {
@@ -21,6 +22,7 @@
     --middle: #181818;
     --secondary: #1F1F1F;
     --accent: #333333;
+    --glow-color: rgba(255,255,255,0.15);
   }
 }
 

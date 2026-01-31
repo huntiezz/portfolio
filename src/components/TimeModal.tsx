@@ -64,7 +64,7 @@ export default function TimeModal({ open, setOpen }: TimeModalProps) {
                         aria-hidden="true"
                     />
 
-                    <div className="fixed inset-0 flex items-center justify-center p-4">
+                    <div className="fixed inset-0 flex items-center justify-center p-4" onClick={() => setOpen(false)}>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}

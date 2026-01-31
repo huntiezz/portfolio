@@ -96,13 +96,13 @@ export default function Navbar() {
                             <img alt="" draggable={false} className="h-8 w-8 sm:h-10 sm:w-10" src="/me.png" />
                             <button onClick={handleClickScroll} className="hover-card group relative p-1.5 sm:p-2 duration-300 text-sm sm:text-lg font-medium hover:bg-secondary rounded-md overflow-hidden">
                                 <div className="pointer-events-none absolute -inset-px rounded-md opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                                 />
                                 <span className="relative z-20">About</span>
                             </button>
                             <button onClick={handleClickScroll2} className="hover-card group relative p-1.5 sm:p-2 duration-300 text-sm sm:text-lg font-medium hover:bg-secondary rounded-md overflow-hidden">
                                 <div className="pointer-events-none absolute -inset-px rounded-md opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                                 />
                                 <span className="relative z-20">Experience</span>
                             </button>
@@ -117,7 +117,7 @@ export default function Navbar() {
                                 title="View Source Code"
                             >
                                 <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                                 />
                                 <Github className="w-5 h-5 relative z-20" />
                                 <span className="relative z-20 font-medium text-sm hidden sm:inline">Source</span>
@@ -128,7 +128,7 @@ export default function Navbar() {
                                 aria-label="View my current time"
                             >
                                 <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                                 />
                                 <Clock className="w-5 h-5 relative z-20" />
                             </button>
@@ -138,7 +138,7 @@ export default function Navbar() {
                                 aria-label="View my birthday info"
                             >
                                 <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                                    style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                                 />
                                 <Cake className="w-5 h-5 relative z-20" />
                                 {isBirthday && (

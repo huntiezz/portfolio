@@ -16,7 +16,7 @@ export default function AboutCard({ title, description, tech, direction, span, g
             >
                 <div className={`hover-card relative group ${gradient} from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background`}>
                     <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
-                        style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.15), transparent 40%)` }}
+                        style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                     />
                     <h2 className="text-center font-semibold text-4xl">
                         {title}
