@@ -4,7 +4,7 @@ import TechBadge from "@/components/TechBadge";
 import Marquee from "react-fast-marquee";
 import { Tech } from "../../typings";
 
-export default function AboutCard({ title, description, tech, direction, span, gradient, delay }: { title: string, description: React.ReactNode, tech?: Tech[], direction: 'top' | 'bottom' | 'left' | 'right', span: 1 | 2, gradient: string, delay: number }) {
+export default function AboutCard({ title, description, tech, direction, span, gradient, delay }: { title?: string, description: React.ReactNode, tech?: Tech[], direction: 'top' | 'bottom' | 'left' | 'right', span: 1 | 2, gradient: string, delay: number }) {
     return (
         <>
             <motion.div
@@ -18,9 +18,11 @@ export default function AboutCard({ title, description, tech, direction, span, g
                     <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
                         style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                     />
-                    <h2 className="text-center font-semibold text-4xl">
-                        {title}
-                    </h2>
+                    {title && (
+                        <h2 className="text-center font-semibold text-4xl">
+                            {title}
+                        </h2>
+                    )}
                     <p className="text-center text-xl mb-2">
                         {description}
                     </p>

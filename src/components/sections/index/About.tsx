@@ -97,7 +97,7 @@ export default function About() {
           transition={{ duration: 0.5, delay: 0.1, ease: [0.39, 0.21, 0.12, 0.96], }}
           viewport={{ amount: 0.1, once: true }}
         >
-          About Me
+          About Me:
         </motion.h1>
         <div className="flex flex-col gap-4 mt-4">
           <motion.div
@@ -108,7 +108,6 @@ export default function About() {
             viewport={{ amount: 0.1, once: true }}
           >
             <AboutCard
-              title="My Journey"
               description={<>I’m a 15-year-old Prompt Engineer with a passion for technology and software development. At 13, I discovered Fortnite hacks, which sparked my curiosity in systems, software development and problem-solving. By 14, I launched my own service, earning $4,000, an early lesson in entrepreneurship.
                 <br /><br />
                 In 2025, my dad, who works at Trust (trustwallet.com),  introduced me to web development, leading to an internship as a QA tester at Safello, one of Sweden’s top fintech companies. I later became a part-time Prompt Engineer, working on <a className="underline hover:text-white transition-all" href="https://wutao.app" target="_blank">Wu-Tao</a>. Currently, I’m building my own digital e-commerce platform, <a className="underline hover:text-white transition-all" href="https://swiftly.gg" target="_blank">Swiftly</a>, which has begun generating revenue and is approaching its first $100 in legitimate business earnings.</>}
