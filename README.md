@@ -53,7 +53,7 @@ git --version
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git
+   git clone https://github.com/huntiezz/portfolio.git
    ```
 
 2. Enter the project directory
