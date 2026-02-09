@@ -69,6 +69,14 @@ export default function Navbar() {
         }
     };
 
+    const scrollToTop = () => {
+        window.dispatchEvent(new CustomEvent('scroll-to-top'));
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
     const handleClickScroll2 = () => {
         const element = document.getElementById('experience');
         if (element) {
@@ -93,7 +101,14 @@ export default function Navbar() {
                 <nav ref={containerRef} className="flex h-14 max-w-[46rem] w-screen bg-gradient-to-br from-primary to-secondary rounded-xl border-1 border-accent px-2 sm:px-4 shadow-2xl overflow-hidden">
                     <div className="flex flex-row items-center justify-between w-full">
                         <div className="flex flex-row gap-0.5 sm:gap-2 items-center">
-                            <img alt="" draggable={false} className="h-8 w-8 sm:h-10 sm:w-10" src="/me.png" />
+                            <motion.button
+                                onClick={scrollToTop}
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                className="focus:outline-none cursor-none"
+                            >
+                                <img alt="Hunter" draggable={false} className="h-8 w-8 sm:h-10 sm:w-10 rounded-full" src="/me.png" />
+                            </motion.button>
                             <button onClick={handleClickScroll} className="hover-card group relative p-1.5 sm:p-2 duration-300 text-[13px] sm:text-lg font-medium hover:bg-secondary rounded-md overflow-hidden">
                                 <div className="pointer-events-none absolute -inset-px rounded-md opacity-0 transition duration-300 group-hover:opacity-100 z-10"
                                     style={{ background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}

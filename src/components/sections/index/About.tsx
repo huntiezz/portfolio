@@ -1,12 +1,37 @@
 import AboutCard from "@/components/AboutCard";
 import { Tech } from "../../../../typings";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 import { useState, useRef, useEffect } from "react";
 import TechBadge from "@/components/TechBadge";
 
 export default function About() {
   const containerRef = useRef<HTMLElement>(null);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    const handleScrollToTop = () => {
+      controls.start({
+        x: 50,
+        opacity: 0,
+        transition: { duration: 0.2, ease: "easeIn" }
+      }).then(() => {
+        controls.start({
+          x: 0,
+          opacity: 1,
+          transition: { duration: 0.3, ease: "easeOut", delay: 0.1 }
+        });
+      });
+    };
+
+    window.addEventListener('scroll-to-top', handleScrollToTop);
+    return () => window.removeEventListener('scroll-to-top', handleScrollToTop);
+  }, [controls]);
+
+  useEffect(() => {
+    // Initial entry animation
+    controls.start({ opacity: 1, y: 0 });
+  }, [controls]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -89,13 +114,17 @@ export default function About() {
 
   return (
     <>
-      <section id='about' ref={containerRef} className="max-w-4xl w-full flex flex-col mx-auto">
+      <motion.section
+        id='about'
+        ref={containerRef}
+        animate={controls}
+        className="max-w-4xl w-full flex flex-col mx-auto"
+      >
         <motion.h1
           className="text-center font-bold text-5xl mt-16"
           initial={{ transform: 'translateY(-30px)', opacity: 0 }}
-          whileInView={{ transform: 'translateY(0px)', opacity: 100 }}
+          animate={controls}
           transition={{ duration: 0.5, delay: 0.1, ease: [0.39, 0.21, 0.12, 0.96], }}
-          viewport={{ amount: 0.1, once: true }}
         >
           About Me:
         </motion.h1>
@@ -103,9 +132,8 @@ export default function About() {
           <motion.div
             className="w-full"
             initial={{ transform: 'translateY(-30px)', opacity: 0 }}
-            whileInView={{ transform: 'translateY(0px)', opacity: 100 }}
+            animate={controls}
             transition={{ duration: 0.5, delay: 0.1, ease: [0.39, 0.21, 0.12, 0.96], }}
-            viewport={{ amount: 0.1, once: true }}
           >
             <AboutCard
               description={<>I’m a 15-year-old Prompt Engineer with a passion for technology and software development. At 13, I discovered Fortnite hacks, which sparked my curiosity in systems, software development and problem-solving. By 14, I launched my own service, earning $4,000, an early lesson in entrepreneurship.
@@ -122,9 +150,8 @@ export default function About() {
           <motion.div
             className="hover-card group relative sm:p-8 p-6 w-full bg-gradient-to-br from-primary to-secondary rounded-lg border-1 border-accent shadow-2xl shadow-background"
             initial={{ transform: 'translateY(30px)', opacity: 0 }}
-            whileInView={{ transform: 'translateY(0px)', opacity: 100 }}
+            animate={controls}
             transition={{ duration: 0.5, delay: 0.2, ease: [0.39, 0.21, 0.12, 0.96], }}
-            viewport={{ amount: 0.1, once: true }}
           >
             <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
               style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
@@ -305,7 +332,7 @@ export default function About() {
 
 
         </div>
-      </section>
+      </motion.section>
     </>
   );
 }
