@@ -1,14 +1,25 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Modal from "@/components/Modal";
 import MediaCarousel from "@/components/MediaCarousel";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
 import Divider from "@/components/Divider";
 
-export default function ExperienceCard({ url, title, fullDescription, cardDescription, cardImage, media, delay, gradient, myRole, timeline }: { url?: string, title: string, fullDescription: React.ReactNode[], cardDescription: React.ReactNode, cardImage: string, media: string[], delay: number, gradient: string, myRole: string, timeline: string }) {
+export default function ExperienceCard({ url, title, fullDescription, cardDescription, cardImage, media, delay, gradient, myRole, timeline, imageClassName }: { url?: string, title: string, fullDescription: React.ReactNode[], cardDescription: React.ReactNode, cardImage: string, media: string[], delay: number, gradient: string, myRole: string, timeline: string, imageClassName?: string }) {
     const [modalOpen, setModalOpen] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        cardRef.current.style.setProperty("--mouse-x", `${mouseX}px`);
+        cardRef.current.style.setProperty("--mouse-y", `${mouseY}px`);
+    };
 
     return (
         <>
@@ -17,14 +28,20 @@ export default function ExperienceCard({ url, title, fullDescription, cardDescri
                 initial={{ transform: 'translateY(-30px)', opacity: 0 }}
                 whileInView={{ transform: 'translateY(0px)', opacity: 100 }}
                 viewport={{ once: true }}
+                transition={{ delay }}
             >
-                <div className={`hover-card relative transition-[box-shadow] duration-200 p-4 flex md:flex-row flex-col gap-6 ${gradient} from-primary to-secondary rounded-lg border-1 border-accent shadow-2xl shadow-background items-center !transform-none`}>
+                <div
+                    ref={cardRef}
+                    onMouseMove={handleMouseMove}
+                    className={`hover-card relative transition-[box-shadow] duration-200 p-4 flex md:flex-row flex-col gap-6 ${gradient} from-primary to-secondary rounded-lg border-1 border-accent shadow-2xl shadow-background items-center !transform-none`}
+                >
                     <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-10"
                         style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
                     />
 
-                    <img alt="" draggable={false} className="rounded-lg md:h-[14rem] sm:h-[12rem] h-[10rem] duration-300" src={cardImage} />
-                    <div className="flex flex-col">
+                    <img alt="" draggable={false} className={`rounded-lg md:h-[14rem] sm:h-[12rem] h-[10rem] duration-300 ${imageClassName || ""}`} src={cardImage} />
+
+                    <div className="flex flex-col relative z-20">
                         <h2 className="md:text-left text-center font-semibold text-4xl">
                             {myRole}
                         </h2>

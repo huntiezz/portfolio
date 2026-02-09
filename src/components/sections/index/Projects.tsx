@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Modal from "@/components/Modal";
@@ -7,7 +7,7 @@ type Project = {
   title: string;
   tags: string;
   description: string;
-  logo: string;
+  logo?: string;
   link?: string;
   isRed?: boolean;
   modalImage?: string;
@@ -16,6 +16,30 @@ type Project = {
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const cardsRef = useRef<HTMLElement>(null);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    const handleScrollToTop = () => {
+      controls.start({
+        x: 50,
+        opacity: 0,
+        transition: { duration: 0.2, ease: "easeIn" }
+      }).then(() => {
+        controls.start({
+          x: 0,
+          opacity: 1,
+          transition: { duration: 0.3, ease: "easeOut", delay: 0.1 }
+        });
+      });
+    };
+
+    window.addEventListener('scroll-to-top', handleScrollToTop);
+    return () => window.removeEventListener('scroll-to-top', handleScrollToTop);
+  }, [controls]);
+
+  useEffect(() => {
+    controls.start({ opacity: 1, y: 0 });
+  }, [controls]);
 
   useEffect(() => {
     const container = cardsRef.current;
@@ -44,16 +68,16 @@ export default function Projects() {
       title: "Donut Auction",
       tags: "Web App, Real-time",
       description: "Real-time Donut SMP auction viewer and betting platform.",
-      logo: "https://files.catbox.moe/6a5f3i.png",
-      modalImage: "https://files.catbox.moe/6a5f3i.png",
+      logo: "/donutactionmedia.png",
+      modalImage: "/donutactionmedia.png",
       isRed: false
     },
     {
       title: "tap.fun Waitlist",
       tags: "React, Next.js, TailwindCSS",
       description: "Unofficial waitlist landing page for tap.fun. (view the website, it looks better when taking a look)",
-      logo: "https://files.catbox.moe/1d3lpq.png",
-      modalImage: "https://files.catbox.moe/1d3lpq.png",
+      logo: "/tap.funmedia.png",
+      modalImage: "/tap.funmedia.png",
       link: "https://iideekk.vercel.app/",
       isRed: false
     },
@@ -61,8 +85,7 @@ export default function Projects() {
       title: "SurgeCheats",
       tags: "React, Next.js, TailwindCSS",
       description: "A website made for a customer. On this website i've used Sellhub's API to embed the products and allow users to purchase them.",
-      logo: "https://files.catbox.moe/c31u33.ico",
-      modalImage: "https://files.catbox.moe/aguwvs.png",
+      modalImage: "/surgecheatsmedia.png",
       link: "https://surgecheats.fun",
       isRed: false
     },
@@ -70,21 +93,24 @@ export default function Projects() {
       title: "ezboosts",
       tags: "E-commerce, API Integration",
       description: "A specialized platform for Discord enhancements. Developed for a client to demonstrate the power of Swiftly's embed API, enabling seamless checkout experiences directly within external sites.",
-      logo: "https://ezboosts.vercel.app/favicon.ico",
-      modalImage: "https://files.catbox.moe/9eenak.png",
+      modalImage: "/ezboostsmedia.png",
       link: "https://ezboosts.vercel.app/",
       isRed: false
     }
   ];
 
   return (
-    <section id='projects' ref={cardsRef} className="max-w-4xl w-full flex flex-col mx-auto px-4 overflow-x-clip">
+    <motion.section
+      id='projects'
+      ref={cardsRef}
+      animate={controls}
+      className="max-w-4xl w-full flex flex-col mx-auto px-4 overflow-x-clip"
+    >
       <motion.h1
         className="text-center font-bold text-5xl mt-16 mb-8"
         initial={{ transform: 'translateY(-30px)', opacity: 0 }}
-        whileInView={{ transform: 'translateY(0px)', opacity: 100 }}
+        animate={controls}
         transition={{ duration: 0.5, delay: 0.1, ease: [0.39, 0.21, 0.12, 0.96] }}
-        viewport={{ amount: 0.1, once: true }}
       >
         My Work
       </motion.h1>
@@ -92,9 +118,8 @@ export default function Projects() {
       <motion.div
         className="hover-card group relative w-full bg-gray-100 dark:bg-[#111] rounded-xl border border-gray-300 dark:border-[#333] overflow-hidden"
         initial={{ transform: 'translateY(30px)', opacity: 0 }}
-        whileInView={{ transform: 'translateY(0px)', opacity: 100 }}
+        animate={controls}
         transition={{ duration: 0.5, delay: 0.2 }}
-        viewport={{ amount: 0.1, once: true }}
       >
         <div className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100 z-10"
           style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
@@ -156,7 +181,7 @@ export default function Projects() {
           </div>
         )}
       </Modal>
-    </section>
+    </motion.section>
   );
 }
 
