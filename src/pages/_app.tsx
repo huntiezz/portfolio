@@ -3,7 +3,6 @@ import { ThemeProvider } from 'next-themes';
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import MusicPlayer from "@/components/MusicPlayer";
 import CustomCursor from "@/components/CustomCursor";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -21,7 +20,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="og:description" content="Portfolio" />
       </Head>
       <Component {...pageProps} />
-      <MusicPlayer />
       <CustomCursor />
     </ThemeProvider>
   );

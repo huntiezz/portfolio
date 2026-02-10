@@ -107,7 +107,7 @@ export default function Projects() {
       className="max-w-4xl w-full flex flex-col mx-auto px-4 overflow-x-clip"
     >
       <motion.h1
-        className="text-center font-bold text-5xl mt-16 mb-8"
+        className="text-center font-bold text-5xl mt-24 mb-12"
         initial={{ transform: 'translateY(-30px)', opacity: 0 }}
         animate={controls}
         transition={{ duration: 0.5, delay: 0.1, ease: [0.39, 0.21, 0.12, 0.96] }}
@@ -116,7 +116,7 @@ export default function Projects() {
       </motion.h1>
 
       <motion.div
-        className="hover-card group relative w-full bg-gray-100 dark:bg-[#111] rounded-xl border border-gray-300 dark:border-[#333] overflow-hidden"
+        className="hover-card group relative w-full bg-gray-100 dark:bg-[#111] rounded-xl border border-gray-300 dark:border-[#333] overflow-hidden mb-12"
         initial={{ transform: 'translateY(30px)', opacity: 0 }}
         animate={controls}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -126,10 +126,11 @@ export default function Projects() {
         />
 
         <div className="p-8 relative z-20">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 place-items-stretch">
             {projects.map((project, index) => (
               <motion.div
                 key={project.title}
+                className={index === projects.length - 1 && projects.length % 3 !== 0 && projects.length % 2 !== 0 ? "md:col-start-2" : ""}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.2, delay: index * 0.1 }}
