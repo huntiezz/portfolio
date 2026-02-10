@@ -8,16 +8,18 @@ import About from "@/components/sections/index/About";
 import Experience from "@/components/sections/index/Experience";
 import Projects from "@/components/sections/index/Projects";
 import Footer from "@/components/sections/index/Footer";
-import { GridPattern } from "@/components/GridPattern";
-
+import DotGrid from "@/components/DotGrid";
+import { useTheme } from 'next-themes';
 
 
 export default function Home() {
   const [isBirthday, setIsBirthday] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 });
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-
+    setMounted(true);
     const today = new Date();
     const isDebug = localStorage.getItem('debug_birthday') === 'true';
     if ((today.getMonth() === 6 && today.getDate() === 17) || isDebug) {
@@ -44,6 +46,10 @@ export default function Home() {
     triggerOnce: true,
   });
 
+  const currentTheme = mounted ? (resolvedTheme || theme) : 'dark';
+  const dotBaseColor = currentTheme === 'dark' ? '#ffffff' : '#000000';
+  const dotActiveColor = '#3b82f6'; // Keep blue for both for now, or change if desired
+
   return (
     <>
       <Navbar />
@@ -58,14 +64,16 @@ export default function Home() {
           />
         </div>
       )}
-      <main className="relative min-h-screen overflow-x-hidden px-6">
-        <GridPattern
-          width={50}
-          height={50}
-          x={-1}
-          y={-1}
-          className='z-[-5]'
+      <div className="fixed inset-0 z-[-1]">
+        <DotGrid
+          dotSize={3}
+          gap={30}
+          baseColor={dotBaseColor}
+          activeColor={dotActiveColor}
+          className="opacity-30"
         />
+      </div>
+      <main className="relative min-h-screen overflow-x-hidden px-6 z-10">
         <Hero inView={inView} descRef={ref} />
         <About />
         <Experience />
