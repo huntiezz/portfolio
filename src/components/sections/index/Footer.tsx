@@ -8,7 +8,7 @@ export default function Footer() {
                     Recoded by 'huntiez
                 </p>
                 <p className="text-center font-medium brightness-75 text-base">
-                    Last updated: February 9th, 2026
+                    Last updated: March 23rd, 2026
                 </p>
             </footer>
         </>

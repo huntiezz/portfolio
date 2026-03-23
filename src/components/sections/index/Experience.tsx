@@ -68,8 +68,37 @@ export default function Experience() {
                     animate={controls}
                     className={`flex flex-col pt-6 pb-1 gap-4 overflow-hidden`}
                 >
-
-
+                    <ExperienceCard
+                        url="hhttps://nelsoncybersecurity.com/"
+                        title="NelsonCybersecurity LLC"
+                        fullDescription={[
+                            "Currently the newbie at NelsonCybersecurity LLC, a cybersecurity company. Assisting in various projects such as Vaultcord, a Discord bot focused on server security and moderation. Gaining experience in cybersecurity practices and bot development."
+                        ]}
+                        cardImage="/vaultcordlogo.webp"
+                        cardDescription="Currently the newbie at NelsonCybersecurity LLC, a cybersecurity company. Assisting in various projects such as Vaultcord, a Discord bot focused on server security and moderation. Gaining experience in cybersecurity practices and bot development."
+                        media={[]}
+                        myRole="Frontend Developer"
+                        timeline="March 2026 - Present"
+                        delay={0.1}
+                        gradient="bg-gradient-to-br"
+                    />
+                    <ExperienceCard
+                        url="https://sellauth.com/"
+                        title="SellAuth"
+                        fullDescription={[
+                            "Joined as a Frontend Developer at SellAuth.",
+                            "Developing Ignite, an open-source chat platform. I've done multiple contributions to the project, including implementing the current landing page and various frontend features.",
+                            "Also made some contributions to SellAuth's main website - I made the current landing page"
+                        ]}
+                        cardImage="/sellauth.png"
+                        cardDescription="Frontend Developer at SellAuth, working on the open-source chat platform Ignite."
+                        media={[]}
+                        myRole="Frontend Developer"
+                        timeline="February 2026 - Present"
+                        delay={0.2}
+                        gradient="bg-gradient-to-br"
+                        imageClassName="object-contain max-w-[15rem]"
+                    />
                     <ExperienceCard
                         url="https://swiftly.gg/"
                         title="Swiftly.gg"
@@ -82,26 +111,9 @@ export default function Experience() {
                         cardDescription={<>Founder of <a className="underline hover:text-white transition-all" href="https://swiftly.gg/" target="_blank">Swiftly.gg</a>, an e-commerce platform where I manage development, design, and AI integration. Building hands-on experience in entrepreneurship and digital product scaling.</>}
                         media={["/swiftlymedia.png"]}
                         myRole="Founder"
-                        timeline="October 2025 - Present"
+                        timeline="October 2025 - March 2026"
                         delay={0.1}
                         gradient="bg-gradient-to-br"
-                    />
-                    <ExperienceCard
-                        url="https://sellauth.com/"
-                        title="SellAuth"
-                        fullDescription={[
-                            "Joined as a Frontend Developer at SellAuth.",
-                            "Developing Ignite, an upcoming open-source chat platform.",
-                            "Contributing to the development and launch of the platform."
-                        ]}
-                        cardImage="/sellauth.png"
-                        cardDescription="Frontend Developer at SellAuth, working on the upcoming open-source chat platform Ignite."
-                        media={[]}
-                        myRole="Frontend Developer"
-                        timeline="February 2026 - Present"
-                        delay={0.2}
-                        gradient="bg-gradient-to-br"
-                        imageClassName="object-contain max-w-[15rem]"
                     />
                     <ExperienceCard
                         url="https://www.bytehack.net/"
