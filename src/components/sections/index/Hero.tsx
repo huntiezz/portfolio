@@ -65,7 +65,7 @@ export default function Hero({ inView, descRef }: { inView: boolean, descRef: an
             style={{ background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), var(--glow-color), transparent 40%)` }}
           />
           <h1 className="font-bold lg:text-5xl md:text-4xl sm:text-3xl text-2xl">
-            Hey, I&apos;m Hunter Jackson<span className="sm:hidden inline-block animate-wave ml-2">👋</span><span className="sm:inline-block hidden animate-wave ml-2">👋</span>
+            Hey, I&apos;m The D1 web dev<span className="sm:hidden inline-block animate-wave ml-2">👋</span><span className="sm:inline-block hidden animate-wave ml-2">👋</span>
           </h1>
           <div className="font-semibold lg:text-3xl md:text-2xl sm:text-xl text-lg min-h-[3.5em] sm:min-h-0">
             {inView &&
