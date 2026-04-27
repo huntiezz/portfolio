@@ -73,7 +73,7 @@ export default function Hero({ inView, descRef }: { inView: boolean, descRef: an
                 options={{
                   delay: 50,
                   strings: [
-                    "I'm a 15 year old Prompt Engineer",
+                    "I'm a 15 year old Developer & AI Engineer",
                     "Build first. Optimize later.",
                     "Slow motion is better then no motion."
                   ],
