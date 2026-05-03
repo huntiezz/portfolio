@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Check, Copy } from "lucide-react";
 import type { OpenSourceProject } from "@/data/openSource";
 import { githubArchiveZipUrl, gitCloneHttps } from "@/data/openSource";
 import { STACK_CHIP_DISPLAY, stackIconSrc } from "@/lib/stackTechIcons";
@@ -27,6 +31,61 @@ function StackChip({ tag }: { tag: string }) {
   );
 }
 
+function CloneCommandRow({ command }: { command: string }) {
+  const [copied, setCopied] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const copy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(command);
+      setCopied(true);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }, [command]);
+
+  useEffect(
+    () => () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    },
+    [],
+  );
+
+  return (
+    <div className="mt-4 max-w-full">
+      <p className="mb-2 font-mono text-[11px] lowercase tracking-[0.14em] text-foreground/45">clone</p>
+      <div className="flex overflow-hidden rounded-sm border border-border bg-muted/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus-within:border-[color:var(--hero-phosphor)]/35 focus-within:ring-1 focus-within:ring-[color:var(--hero-phosphor)]/25 dark:bg-[#12121a]/90 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+        <input
+          readOnly
+          value={command}
+          onClick={() => void copy()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              void copy();
+            }
+          }}
+          aria-label="Git clone command, click to copy"
+          className="min-w-0 flex-1 cursor-pointer overflow-x-auto border-0 bg-transparent px-3 py-2.5 font-mono text-[12px] leading-snug text-[color:var(--hero-phosphor)] outline-none selection:bg-[color:var(--hero-phosphor)]/20 dark:text-[color:var(--hero-phosphor)]"
+        />
+        <button
+          type="button"
+          onClick={() => void copy()}
+          className="flex shrink-0 items-center justify-center border-l border-border px-3 py-2 text-foreground/55 transition-colors hover:bg-muted/30 hover:text-[color:var(--hero-phosphor)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--accent-blue)]"
+          aria-label={copied ? "Copied" : "Copy command"}
+        >
+          {copied ? <Check className="h-4 w-4" strokeWidth={2} aria-hidden /> : <Copy className="h-4 w-4" strokeWidth={2} aria-hidden />}
+        </button>
+      </div>
+      <p className="mt-1.5 min-h-[1rem] font-mono text-[10px] lowercase tracking-wide text-foreground/35" aria-live="polite">
+        {copied ? "copied to clipboard" : "click to copy"}
+      </p>
+    </div>
+  );
+}
+
 export default function OpenSourceProjectCard({ project }: { project: OpenSourceProject }) {
   const branch = project.defaultBranch ?? "main";
   const zipHref = githubArchiveZipUrl(project.repoUrl, branch);
@@ -34,7 +93,7 @@ export default function OpenSourceProjectCard({ project }: { project: OpenSource
 
   return (
     <li className="list-none">
-      <div className="rounded-sm border border-border bg-background p-5 pb-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] ring-1 ring-black/[0.04] dark:bg-[color:var(--hero-panel-bg)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] dark:ring-white/[0.06] md:flex md:items-start md:justify-between md:gap-10 md:p-6">
+      <div className="rounded-sm border border-border bg-background p-4 pb-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] ring-1 ring-black/[0.04] dark:bg-[color:var(--hero-panel-bg)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] dark:ring-white/[0.06] md:flex md:items-start md:justify-between md:gap-8 md:p-5">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <h2 className="font-pixel text-[2rem] lowercase tracking-wide text-foreground sm:text-[2.35rem]">
@@ -47,27 +106,20 @@ export default function OpenSourceProjectCard({ project }: { project: OpenSource
               </span>
             ) : null}
           </div>
-          <p className="mt-4 max-w-2xl text-base lowercase leading-relaxed tracking-wide text-foreground/88 md:text-[1.05rem] md:leading-relaxed">
+          <p className="mt-3 max-w-2xl text-base lowercase leading-relaxed tracking-wide text-foreground/88 md:text-[1.05rem] md:leading-relaxed">
             {project.description}
           </p>
-          <ul className="mt-4 flex flex-wrap gap-2">
+          <ul className="mt-3 flex flex-wrap gap-2">
             {project.stack.map((tag) => (
               <li key={tag}>
                 <StackChip tag={tag} />
               </li>
             ))}
           </ul>
-          {cloneLine ? (
-            <div className="mt-5 max-w-full overflow-x-auto rounded-sm border border-border bg-muted/10 px-3 py-2.5">
-              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-foreground/45">clone</p>
-              <code className="mt-1 block whitespace-pre font-mono text-[12px] leading-snug text-[color:var(--hero-phosphor)] dark:text-[color:var(--hero-phosphor)]">
-                {cloneLine}
-              </code>
-            </div>
-          ) : null}
+          {cloneLine ? <CloneCommandRow command={cloneLine} /> : null}
         </div>
 
-        <div className="mt-6 flex w-full shrink-0 flex-col gap-3 md:mt-0 md:w-auto md:min-w-[12rem]">
+        <div className="mt-4 flex w-full shrink-0 flex-col gap-2.5 md:mt-0 md:w-auto md:min-w-[12rem]">
           <Link
             href={project.repoUrl}
             target="_blank"

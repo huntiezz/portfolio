@@ -11,8 +11,11 @@ import { getGallerySlides } from "@/lib/portfolioGallery";
 const CUT_CORNER_BTN =
   "polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)";
 
-const COVER_FRAME =
-  "mx-auto h-[11rem] w-[11rem] shrink-0 overflow-hidden rounded-sm ring-1 ring-border sm:h-[12rem] sm:w-[12rem] md:mx-0 md:h-[14rem] md:w-[14rem]";
+const COVER_DIMS =
+  "mx-auto h-[10rem] w-[10rem] shrink-0 sm:h-[11rem] sm:w-[11rem] md:mx-0 md:h-[12.5rem] md:w-[12.5rem]";
+
+const COVER_SHELL =
+  `${COVER_DIMS} overflow-hidden rounded-2xl border border-border bg-muted/20`;
 
 export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardData }) {
   const [detailOpen, setDetailOpen] = useState(false);
@@ -21,8 +24,8 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
 
   return (
     <li className="list-none">
-      <div className="relative flex flex-col gap-0 overflow-hidden rounded-sm border border-border bg-background p-5 pb-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] ring-1 ring-black/[0.04] dark:bg-[color:var(--hero-panel-bg)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] dark:ring-white/[0.06]">
-        <div className="relative z-[1] flex flex-col gap-6 md:flex-row md:items-stretch md:pb-0">
+      <div className="relative flex flex-col gap-0 overflow-hidden rounded-sm border border-border bg-background p-4 pb-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] ring-1 ring-black/[0.04] dark:bg-[color:var(--hero-panel-bg)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] dark:ring-white/[0.06]">
+        <div className="relative z-[1] flex flex-col gap-5 md:flex-row md:items-stretch md:gap-6 md:pb-0">
           <PortfolioCover
             src={entry.coverSrc}
             alt={entry.coverAlt}
@@ -37,11 +40,11 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
               {entry.portfolioTitle}{" "}
               <span className="text-foreground/30"> | </span> {entry.timeline}
             </p>
-            <hr className="my-4 border-border" />
+            <hr className="my-3 border-border" />
             <p className="text-center text-lg lowercase leading-relaxed tracking-wide text-foreground/90 md:text-left md:text-[1.1rem] md:leading-[1.6]">
               {entry.summary}
             </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-3 md:justify-start">
+            <div className="mt-4 flex flex-wrap justify-center gap-3 md:justify-start">
               {safeLink ? (
                 <Link
                   href={safeLink}
@@ -147,10 +150,15 @@ function PortfolioCover({
 }) {
   const [failed, setFailed] = useState(false);
 
+  const isContained = /\bobject-contain\b/.test(className);
+
   if (!src || failed) {
     return (
       <div
-        className={twMerge(COVER_FRAME, "flex items-center justify-center border border-dashed border-border bg-muted/10")}
+        className={twMerge(
+          COVER_SHELL,
+          "flex items-center justify-center border-dashed border-border/70 bg-muted/10",
+        )}
       >
         <span className="sr-only">{alt || "project cover"}</span>
       </div>
@@ -158,14 +166,26 @@ function PortfolioCover({
   }
 
   return (
-    <div className={twMerge(COVER_FRAME, "border border-transparent bg-muted/5")}>
-      <img
-        alt={alt || "project cover"}
-        draggable={false}
-        src={src}
-        onError={() => setFailed(true)}
-        className={twMerge("h-full w-full object-cover duration-300", className)}
-      />
+    <div className={COVER_SHELL}>
+      {isContained ? (
+        <div className="flex h-full w-full items-center justify-center p-3 md:p-3.5">
+          <img
+            alt={alt || "project cover"}
+            draggable={false}
+            src={src}
+            onError={() => setFailed(true)}
+            className={twMerge("max-h-full max-w-full object-contain duration-300", className)}
+          />
+        </div>
+      ) : (
+        <img
+          alt={alt || "project cover"}
+          draggable={false}
+          src={src}
+          onError={() => setFailed(true)}
+          className={twMerge("h-full w-full object-cover duration-300", className)}
+        />
+      )}
     </div>
   );
 }
