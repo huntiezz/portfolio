@@ -15,7 +15,10 @@ export default function Modal({ children, open, setOpen }: { children: ReactNode
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <div className="fixed inset-0 backdrop-blur-sm transition-opacity" />
+                        <div
+                            aria-hidden
+                            className="fixed inset-0 z-[1] bg-black/25 backdrop-blur-[2px] transition-opacity dark:bg-black/35 dark:backdrop-blur-[3px]"
+                        />
                     </TransitionChild>
 
                     <TransitionChild
@@ -27,7 +30,7 @@ export default function Modal({ children, open, setOpen }: { children: ReactNode
                         leaveFrom="opacity-100 scale-100 translate-y-0"
                         leaveTo="opacity-0 scale-0 translate-y-4 sm:translate-y-0"
                     >
-                        <DialogPanel className={`max-w-[52rem] w-full relative transform overflow-hidden rounded-md bg-white dark:bg-secondary border-1 border-gray-300 dark:border-accent md:p-6 p-4 sm:m-8 mx-4 my-8 shadow-xl transition-all`}>
+                        <DialogPanel className="relative z-[2] mx-4 my-8 max-h-[min(90vh,calc(100dvh-2rem))] w-full max-w-[52rem] transform overflow-y-auto overflow-x-hidden rounded-md border border-gray-300 bg-white p-4 shadow-[0_24px_90px_rgba(0,0,0,0.28)] ring-1 ring-black/[0.06] transition-all dark:border-white/[0.12] dark:bg-[#1e1e26] dark:shadow-[0_28px_100px_rgba(0,0,0,0.55)] dark:ring-white/[0.08] md:p-6 sm:m-8">
                             {children}
                         </DialogPanel>
                     </TransitionChild>

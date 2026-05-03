@@ -73,7 +73,6 @@ export default function MusicPlayer() {
     useEffect(() => {
         if (playlist.length > 0 && audioRef.current) {
             audioRef.current.src = playlist[currentSongIndex].src;
-            // Reset image error for the new song
             setImageError(prev => ({ ...prev, [currentSongIndex]: false }));
             if (isPlaying) {
                 audioRef.current.play().catch(e => console.log("Playback error:", e));
@@ -123,10 +122,8 @@ export default function MusicPlayer() {
         >
             <div className="hover-card flex items-center gap-3 p-3 bg-gray-200 dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/10 rounded-lg shadow-2xl overflow-hidden max-w-sm transition-all duration-300 hover:scale-105 group">
 
-                {/* Glow Effect (Static/Simulated since global mouse tracking isn't here) */}
                 <div className="pointer-events-none absolute -inset-px rounded-lg opacity-0 transition duration-300 group-hover:opacity-100 z-0 bg-white/5" />
 
-                {/* Album Art / Icon */}
                 <div className="relative w-12 h-12 flex-shrink-0 bg-gray-300 dark:bg-white/5 rounded-md overflow-hidden flex items-center justify-center border border-gray-400 dark:border-white/10 z-10">
                     <img
                         src={coverPath}
@@ -139,7 +136,6 @@ export default function MusicPlayer() {
                     )}
                 </div>
 
-                {/* Song Info */}
                 <div className="flex flex-col min-w-[120px] max-w-[180px] overflow-hidden mr-2 z-10">
                     <motion.a
                         href={`https://open.spotify.com/search/${encodeURIComponent(currentSong.title)}`}
@@ -164,7 +160,6 @@ export default function MusicPlayer() {
                     </a>
                 </div>
 
-                {/* Controls */}
                 <div className="flex items-center gap-2 z-10">
                     <button
                         onClick={handlePrev}
