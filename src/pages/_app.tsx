@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { GeistPixelSquare } from "geist/font/pixel";
+import { Analytics } from '@vercel/analytics/next';
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const path = router.asPath.split("?")[0] === "/" ? "" : router.asPath.split("?")[0];
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <meta property="og:description" content="Developer portfolio - huntiez.com" />
         </Head>
         <Component {...pageProps} />
+        <Analytics />
       </div>
     </ThemeProvider>
   );
