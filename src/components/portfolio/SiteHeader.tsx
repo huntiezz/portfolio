@@ -1,7 +1,6 @@
 import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
 import BrandFavicon from "@/components/portfolio/BrandFavicon";
-import HeroMotionPauseButton from "@/components/portfolio/HeroMotionPauseButton";
 
 const NAV = [
   { href: "/about", label: "about" },
@@ -32,7 +31,6 @@ export default function SiteHeader() {
             </Link>
           </div>
           <div className="flex shrink-0 items-stretch border-l border-border">
-            <HeroMotionPauseButton />
             <ThemeToggle variant="segmented" />
           </div>
         </div>
@@ -80,7 +78,6 @@ export default function SiteHeader() {
         ))}
 
         <div className="flex shrink-0 items-stretch">
-          <HeroMotionPauseButton />
           <ThemeToggle variant="segmented" />
         </div>
       </nav>

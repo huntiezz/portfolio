@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useHeroDitherMotion } from "@/context/HeroDitherMotionContext";
 
 const BAYER_8 = [
   [0, 32, 8, 40, 2, 34, 10, 42],
@@ -301,19 +300,10 @@ function paint(
   ctx.putImageData(img, 0, 0);
 }
 
-type RuntimeCtl = {
-  stopLoop: () => void;
-  kickLoop: () => void;
-  freezeFrame: () => void;
-};
+const STATIC_T = 0;
 
 export default function DitherFluidCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const runtimeRef = useRef<RuntimeCtl | null>(null);
-  const motionCtx = useHeroDitherMotion();
-  const motionPaused = motionCtx?.motionPaused ?? false;
-  const motionPausedRef = useRef(motionPaused);
-  motionPausedRef.current = motionPaused;
 
   const hiRef = useRef<[number, number, number]>([DEFAULT_HI_R, DEFAULT_HI_G, DEFAULT_HI_B]);
   const loRef = useRef<[number, number, number]>([DEFAULT_LO_R, DEFAULT_LO_G, DEFAULT_LO_B]);
@@ -330,12 +320,6 @@ export default function DitherFluidCanvas() {
 
     syncDitherPalette();
 
-    let time = 0;
-    let rafId = 0;
-    let acc = 0;
-    let last = performance.now();
-    let visible = document.visibilityState === "visible";
-
     const scratch = { img: null as ImageData | null, w: 0, h: 0 };
 
     const mqReduce =
@@ -348,10 +332,10 @@ export default function DitherFluidCanvas() {
       return resolvePerfTier();
     }
 
-    const renderOnce = (tValue: number) => {
+    const renderStatic = () => {
       const tier = paintTierForRuntime();
       fitCanvasToParent(el, parent, tier);
-      paint(el, tValue, tier, scratch, hiRef.current, loRef.current);
+      paint(el, STATIC_T, tier, scratch, hiRef.current, loRef.current);
     };
 
     let themeRepaintRaf1 = 0;
@@ -374,7 +358,7 @@ export default function DitherFluidCanvas() {
         themeRepaintRaf2 = requestAnimationFrame(() => {
           themeRepaintRaf2 = 0;
           syncDitherPalette();
-          renderOnce(mqReduce?.matches ? 0 : time);
+          renderStatic();
         });
       });
     };
@@ -390,113 +374,36 @@ export default function DitherFluidCanvas() {
       if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         resizeTimer = null;
-        renderOnce(mqReduce?.matches ? 0 : time);
+        renderStatic();
       }, 140);
     };
 
     const ro = new ResizeObserver(scheduleResize);
 
-    const stopLoop = () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = 0;
-    };
-
-    const loop = () => {
-      rafId = 0;
-
-      if (!visible || mqReduce?.matches || motionPausedRef.current) return;
-
-      const tierNow = paintTierForRuntime();
-      if (tierNow === "static") return;
-
-      const parentW = parent.clientWidth;
-      const narrowPhone = parentW < 520;
-      const lowThrottle = tierNow === "low" && narrowPhone;
-
-      const frameMs =
-        tierNow === "high" ? 1000 / 24 : lowThrottle ? 1000 / 8 : 1000 / 12;
-      const timeMul =
-        tierNow === "high" ? 0.000036 : lowThrottle ? 0.00005 : 0.000063;
-
-      const now = performance.now();
-      const dt = now - last;
-      last = now;
-
-      acc += dt;
-      if (acc >= frameMs) {
-        acc %= frameMs;
-        time += frameMs * timeMul;
-        const tier = paintTierForRuntime();
-        if (tier === "static") {
-          acc = 0;
-        } else {
-          fitCanvasToParent(el, parent, tier);
-          paint(el, time, tier, scratch, hiRef.current, loRef.current);
-        }
-      }
-
-      rafId = requestAnimationFrame(loop);
-    };
-
-    const kickLoop = () => {
-      if (rafId) return;
-      if (!visible || mqReduce?.matches || motionPausedRef.current) return;
-      if (paintTierForRuntime() === "static") return;
-      last = performance.now();
-      rafId = requestAnimationFrame(loop);
-    };
+    ro.observe(parent);
+    renderStatic();
 
     const onVisibility = () => {
-      visible = document.visibilityState === "visible";
-      last = performance.now();
-      acc = 0;
-      if (visible) kickLoop();
-      else stopLoop();
+      if (document.visibilityState === "visible") renderStatic();
     };
-
-    ro.observe(parent);
-    renderOnce(0);
 
     document.addEventListener("visibilitychange", onVisibility);
 
-    kickLoop();
-
     const onMq = () => {
-      renderOnce(mqReduce?.matches ? 0 : time);
-      if (mqReduce?.matches) stopLoop();
-      else kickLoop();
+      renderStatic();
     };
     mqReduce?.addEventListener("change", onMq);
 
-    runtimeRef.current = {
-      stopLoop,
-      kickLoop,
-      freezeFrame: () => renderOnce(time),
-    };
-
     return () => {
       cancelThemeRepaint();
-      runtimeRef.current = null;
       themeObserver.disconnect();
       ro.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       mqReduce?.removeEventListener("change", onMq);
       if (resizeTimer) clearTimeout(resizeTimer);
-      stopLoop();
       scratch.img = null;
     };
   }, []);
-
-  useEffect(() => {
-    const ctl = runtimeRef.current;
-    if (!ctl) return;
-    if (motionPaused) {
-      ctl.stopLoop();
-      ctl.freezeFrame();
-    } else {
-      ctl.kickLoop();
-    }
-  }, [motionPaused]);
 
   return (
     <canvas
