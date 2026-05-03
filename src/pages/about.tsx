@@ -44,7 +44,7 @@ export default function AboutPage() {
   return (
     <PortfolioLayout>
       <article className="relative mx-auto max-w-2xl">
-        <header className="border-b border-border pb-10 md:pb-12">
+        <header className="pb-10 md:pb-12">
           <p className="font-mono text-[11px] uppercase tracking-[0.38em] text-foreground/50">
             profile
           </p>
@@ -53,7 +53,7 @@ export default function AboutPage() {
           </h1>
         </header>
 
-        <div className="relative mt-10 border-l border-border pl-6 md:mt-12 md:pl-10 dark:border-[color:var(--hero-phosphor)]/30">
+        <div className="relative mt-10 md:mt-12">
           <div className="space-y-8 text-lg lowercase leading-[1.65] tracking-wide text-foreground/90 sm:text-xl sm:leading-[1.7]">
             <p className="text-pretty text-foreground/95">
               hi, i&apos;m{" "}
