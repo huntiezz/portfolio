@@ -6,15 +6,12 @@ import { useRouter } from "next/router";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { GeistPixelSquare } from "geist/font/pixel";
-import { HeroDitherMotionProvider } from "@/context/HeroDitherMotionContext";
-
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const path = router.asPath.split("?")[0] === "/" ? "" : router.asPath.split("?")[0];
 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <HeroDitherMotionProvider>
       <div
         className={`${GeistSans.className} ${GeistSans.variable} ${GeistMono.variable} ${GeistPixelSquare.variable}`}
       >
@@ -29,7 +26,6 @@ export default function App({ Component, pageProps }: AppProps) {
         </Head>
         <Component {...pageProps} />
       </div>
-      </HeroDitherMotionProvider>
     </ThemeProvider>
   );
 }

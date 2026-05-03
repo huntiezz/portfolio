@@ -23,7 +23,7 @@ export default function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
         const newTheme = isDark ? "light" : "dark";
 
         const doc = document as Document & {
-            startViewTransition?: (cb: () => Promise<void>) => unknown;
+            startViewTransition?: (cb: () => Promise<void>) => { finished?: Promise<void> };
         };
 
         if (typeof doc.startViewTransition !== "function") {
@@ -33,6 +33,7 @@ export default function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
 
         const direction = isDark ? "dark-to-light" : "light-to-dark";
         doc.documentElement.setAttribute("data-transition-direction", direction);
+
         doc.startViewTransition(async () => {
             setTheme(newTheme);
         });
