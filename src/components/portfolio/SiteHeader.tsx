@@ -13,23 +13,20 @@ const NAV = [
 const navLinkDesktop =
   "flex items-center px-5 py-5 text-sm lowercase tracking-wide text-foreground transition-colors hover:bg-[color:var(--accent-blue)] hover:text-[color:var(--hero-on-phosphor)]";
 
-const navLinkMobile =
-  "flex shrink-0 items-center whitespace-nowrap px-4 py-3 text-sm lowercase tracking-wide text-foreground transition-colors hover:bg-[color:var(--accent-blue)] hover:text-[color:var(--hero-on-phosphor)] active:bg-[color:var(--accent-blue)]/25";
-
 export default function SiteHeader() {
   return (
     <header className="border-b border-border bg-background">
       <div className="flex flex-col md:hidden">
         <div className="flex min-w-0 items-stretch">
-          <div className="flex items-center justify-center border-r border-border px-4 py-4">
+          <div className="flex w-[3.25rem] shrink-0 items-center justify-center border-r border-border py-4">
             <Link href="/" aria-label="Home" className="flex leading-none">
               <BrandFavicon size={24} className="h-6 w-6 shrink-0" />
             </Link>
           </div>
-          <div className="flex min-w-0 flex-1 items-center border-r border-border px-4 py-4">
+          <div className="flex min-w-0 flex-1 items-center justify-center border-r border-border px-3 py-4">
             <Link
               href="/"
-              className="truncate font-pixel text-lg lowercase tracking-wide text-foreground"
+              className="truncate text-center font-sans text-base font-semibold lowercase tracking-wide text-foreground"
             >
               huntiez
             </Link>
@@ -40,18 +37,18 @@ export default function SiteHeader() {
           </div>
         </div>
         <nav
-          className="scrollbar-hide flex w-full overflow-x-auto overflow-y-hidden border-t border-border"
+          className="grid w-full grid-cols-4 border-t border-border"
           aria-label="Primary navigation"
         >
-          <div className="flex min-w-min items-stretch">
-            {NAV.map((item) => (
-              <div key={item.href} className="flex items-stretch border-r border-border">
-                <Link href={item.href} className={navLinkMobile}>
-                  {item.label}
-                </Link>
-              </div>
-            ))}
-          </div>
+          {NAV.map((item, i) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex min-h-[48px] items-center justify-center border-border px-1.5 py-3 text-center text-[11px] font-medium lowercase leading-snug tracking-wide text-foreground transition-colors hover:bg-[color:var(--accent-blue)] hover:text-[color:var(--hero-on-phosphor)] active:bg-[color:var(--accent-blue)]/25 sm:text-xs ${i < 3 ? "border-r border-border" : ""} `}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
       </div>
 
