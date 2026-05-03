@@ -29,16 +29,3 @@ export default function App({ Component, pageProps }: AppProps) {
     </ThemeProvider>
   );
 }
-
-if (typeof window !== 'undefined') {
-  (window as any).toggleBirthday = () => {
-    localStorage.setItem('debug_birthday', 'true');
-    console.log('Birthday mode enabled! Reloading...');
-    window.location.reload();
-  };
-  (window as any).resetBirthday = () => {
-    localStorage.removeItem('debug_birthday');
-    console.log('Birthday mode disabled. Reloading...');
-    window.location.reload();
-  };
-}
