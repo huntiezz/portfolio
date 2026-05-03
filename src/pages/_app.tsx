@@ -3,24 +3,33 @@ import { ThemeProvider } from 'next-themes';
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import CustomCursor from "@/components/CustomCursor";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { GeistPixelSquare } from "geist/font/pixel";
+import { HeroDitherMotionProvider } from "@/context/HeroDitherMotionContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const path = router.asPath.split("?")[0] === "/" ? "" : router.asPath.split("?")[0];
 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <Head>
-        <title>Hunter Jackson</title>
-        <meta name="description" content="Portfolio" />
-        <link rel="canonical" href={`https://huntiez.com${router.asPath.split("?")[0] === "/" ? "" : router.asPath.split("?")[0]}`} />
-        <meta name="theme-color" content="#FFFFFF" />
-        <meta property="og:url" content={`https://huntiez.com${router.asPath.split("?")[0] === "/" ? "" : router.asPath.split("?")[0]}`} />
-        <meta property="og:title" content="Hunter Jackson" />
-        <meta property="og:description" content="Portfolio" />
-      </Head>
-      <Component {...pageProps} />
-      <CustomCursor />
+      <HeroDitherMotionProvider>
+      <div
+        className={`${GeistSans.className} ${GeistSans.variable} ${GeistMono.variable} ${GeistPixelSquare.variable}`}
+      >
+        <Head>
+          <title>huntiezzyyy</title>
+          <meta name="description" content="Developer portfolio - huntiez.com" />
+          <link rel="canonical" href={`https://huntiez.com${path}`} />
+          <meta name="theme-color" content="#131318" />
+          <meta property="og:url" content={`https://huntiez.com${path}`} />
+          <meta property="og:title" content="huntiez folio" />
+          <meta property="og:description" content="Developer portfolio - huntiez.com" />
+        </Head>
+        <Component {...pageProps} />
+      </div>
+      </HeroDitherMotionProvider>
     </ThemeProvider>
   );
 }

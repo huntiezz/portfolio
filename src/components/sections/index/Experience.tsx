@@ -69,7 +69,7 @@ export default function Experience() {
                     className={`flex flex-col pt-6 pb-1 gap-4 overflow-hidden`}
                 >
                     <ExperienceCard
-                        url="hhttps://nelsoncybersecurity.com/"
+                        url="https://nelsoncybersecurity.com/"
                         title="NelsonCybersecurity LLC"
                         fullDescription={[
                             "Currently the newbie at NelsonCybersecurity LLC, a cybersecurity company. Assisting in various projects such as Vaultcord, a Discord bot focused on server security and moderation. Gaining experience in cybersecurity practices and bot development."

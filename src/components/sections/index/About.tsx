@@ -29,7 +29,6 @@ export default function About() {
   }, [controls]);
 
   useEffect(() => {
-    // Initial entry animation
     controls.start({ opacity: 1, y: 0 });
   }, [controls]);
 

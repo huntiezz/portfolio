@@ -1,19 +1,29 @@
 import { motion, useAnimation } from "framer-motion";
 import Typewriter from 'typewriter-effect';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type Ref } from 'react';
 
 import SocialIcon from "@/components/SocialIcon";
 import EmailModal from "@/components/EmailModal";
 import Magnetic from "@/components/Magnetic";
 
-export default function Hero({ inView, descRef }: { inView: boolean, descRef: any }) {
+function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
+  if (!ref) return;
+  if (typeof ref === "function") ref(value);
+  else (ref as { current: T | null }).current = value;
+}
+
+type HeroProps = {
+  inView: boolean;
+  descRef?: Ref<HTMLDivElement>;
+};
+
+export default function Hero({ inView, descRef }: HeroProps) {
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
 
   useEffect(() => {
     const handleScrollToTop = () => {
-      // Zoom in effect for Hero
       controls.start({
         scale: 1.05,
         transition: { duration: 0.2 }
@@ -47,13 +57,9 @@ export default function Hero({ inView, descRef }: { inView: boolean, descRef: an
     <>
       <section className="max-w-4xl w-full flex flex-col mx-auto pt-44">
         <motion.div
-          ref={(node: HTMLDivElement | null) => {
-            // @ts-ignore
+          ref={(node) => {
             cardRef.current = node;
-            if (descRef) {
-              if (typeof descRef === 'function') descRef(node);
-              else descRef.current = node;
-            }
+            assignRef(descRef, node);
           }}
           onMouseMove={handleMouseMove}
           className="hover-card group relative sm:p-12 p-6 w-full flex flex-col bg-gradient-to-br from-primary to to-secondary rounded-lg border-1 border-accent shadow-2xl shadow-background"

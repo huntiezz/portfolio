@@ -60,13 +60,10 @@ vec4 cppn_fn(vec2 coordinate,float in0,float in1,float in2){
 }
 
 void mainImage(out vec4 fragColor,in vec2 fragCoord){
-    // Standard centered UV with aspect ratio correction
     vec2 uv = (fragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.y, uResolution.x);
     
-    // Scale up UV to pull patterns that would be at the edges into the center
     uv *= 2.5;
     
-    // Add subtle centered warping
     float dist = length(uv);
     uv += uWarp * vec2(sin(dist * 2.0 + uTime * 0.4), cos(dist * 2.0 + uTime * 0.4)) * 0.08;
     
@@ -76,7 +73,6 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord){
 void main(){
     vec4 col;mainImage(col,gl_FragCoord.xy);
     
-    // Stronger contrast and brightness for better visibility
     col.rgb = (col.rgb - 0.5) * 1.5 + 0.5;
     col.rgb *= 2.0; 
     
@@ -153,7 +149,6 @@ export default function Background({
         const resize = () => {
             const w = parent.clientWidth,
                 h = parent.clientHeight;
-            // Use device pixel ratio for maximum sharpness
             const dpr = Math.min(window.devicePixelRatio, 2);
             renderer.setSize(w * dpr, h * dpr);
             canvas.style.width = '100%';

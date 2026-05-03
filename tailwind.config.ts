@@ -10,11 +10,22 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        'inter': ['Inter', 'sans-serif'],
+        mono: [
+          "var(--font-geist-mono)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Roboto Mono",
+          "Menlo",
+          "Monaco",
+          "monospace",
+        ],
+        pixel: ["var(--font-geist-pixel-square)", "monospace"],
       },
       colors: {
+        border: "var(--hairline)",
+        background: "var(--bg)",
+        foreground: "var(--body-fg)",
         text: 'var(--text)',
-        background: 'var(--background)',
         primary: 'var(--primary)',
         middle: 'var(--middle)',
         secondary: 'var(--secondary)',

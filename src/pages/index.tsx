@@ -1,86 +1,83 @@
-import { useInView } from 'react-intersection-observer';
-import { useState, useEffect } from 'react';
-import Confetti from 'react-confetti';
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import SiteFrame from "@/components/portfolio/SiteFrame";
+import SiteHeader from "@/components/portfolio/SiteHeader";
+import SiteFooter from "@/components/portfolio/SiteFooter";
 
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/sections/index/Hero";
-import About from "@/components/sections/index/About";
-import Experience from "@/components/sections/index/Experience";
-import Projects from "@/components/sections/index/Projects";
-import Footer from "@/components/sections/index/Footer";
-import DotGrid from "@/components/DotGrid";
-import { useTheme } from 'next-themes';
-
+const DitherFluidCanvas = dynamic(() => import("@/components/portfolio/DitherFluidCanvas"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function Home() {
-  const [isBirthday, setIsBirthday] = useState(false);
-  const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 });
-  const { theme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const today = new Date();
-    const isDebug = localStorage.getItem('debug_birthday') === 'true';
-    if ((today.getMonth() === 6 && today.getDate() === 17) || isDebug) {
-      setIsBirthday(true);
-    }
-
-    const updateDimensions = () => {
-      setWindowDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-
-    return () => {
-      window.removeEventListener('resize', updateDimensions);
-    };
-  }, []);
-
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
-
-  const currentTheme = mounted ? (resolvedTheme || theme) : 'dark';
-  const dotBaseColor = currentTheme === 'dark' ? '#ffffff' : '#000000';
-  const dotActiveColor = '#3b82f6'; // Keep blue for both for now, or change if desired
-
   return (
-    <>
-      <Navbar />
-      {isBirthday && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 9999, pointerEvents: 'none' }}>
-          <Confetti
-            width={windowDimensions.width}
-            height={windowDimensions.height}
-            recycle={true}
-            numberOfPieces={200}
-            gravity={0.3}
-          />
-        </div>
-      )}
-      <div className="fixed inset-0 z-[-1]">
-        <DotGrid
-          dotSize={3}
-          gap={30}
-          baseColor={dotBaseColor}
-          activeColor={dotActiveColor}
-          className="opacity-30"
-        />
-      </div>
-      <main className="relative min-h-screen overflow-x-hidden px-6 z-10">
-        <Hero inView={inView} descRef={ref} />
-        <About />
-        <Experience />
-        <Projects />
-        <Footer />
-      </main>
+    <SiteFrame>
+      <SiteHeader />
+      <div className="flex min-h-0 flex-1 flex-col">
+        <main className="relative min-h-0 flex-1 overflow-hidden">
+          <div className="absolute inset-0 z-0 bg-[var(--hero-void-canvas)]">
+            <div
+              className="absolute inset-0 [view-transition-name:none] motion-reduce:[&_canvas]:[filter:none] lg:motion-safe:dark:[&_canvas]:brightness-[0.93] lg:motion-safe:dark:[&_canvas]:contrast-[0.96] lg:motion-safe:dark:[&_canvas]:saturate-[0.88] lg:motion-safe:[&_canvas]:brightness-[1.03] lg:motion-safe:[&_canvas]:contrast-[0.94] lg:motion-safe:[&_canvas]:saturate-[0.92]"
+              aria-hidden
+            >
+              <DitherFluidCanvas />
+            </div>
+            <div
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_72%_12%,var(--hero-vignette-chroma),transparent_58%)]"
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--bg)]/40 via-transparent to-[var(--hero-void-canvas)]/60"
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_110%_75%_at_88%_90%,var(--hero-wedge-a)_0%,var(--hero-wedge-b)_38%,transparent_68%)]"
+              aria-hidden
+            />
+          </div>
 
-    </>
+          <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center px-4 pb-8 pt-8 sm:px-8 sm:pb-12 md:justify-end md:px-12 md:pb-14 md:pt-12 lg:px-14 lg:pb-16">
+            <div className="relative isolate flex w-full max-w-[min(32rem,calc(100%-2rem))] flex-col items-start overflow-x-clip rounded-md border border-[color:color-mix(in_srgb,var(--hero-panel-ring)_55%,transparent)] bg-[var(--hero-panel-bg)] p-7 text-left shadow-[0_16px_48px_var(--hero-panel-shadow),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md dark:border-white/[0.09] dark:bg-[var(--hero-panel-scrim)] sm:p-10 sm:max-w-lg md:max-w-[28rem] md:backdrop-blur-xl md:items-end md:p-14 md:text-right lg:max-w-[30rem]">
+              <p className="font-mono text-[11px] uppercase tracking-[0.42em] text-[color:var(--hero-copy-kicker)] dark:[text-shadow:0_1px_18px_rgb(0_0_0/0.88)]">
+                huntiez · folio
+              </p>
+              <h1 className="mt-3 max-w-full font-pixel text-5xl leading-[0.94] lowercase tracking-wide text-[color:var(--hero-copy-title)] [text-wrap:balance] dark:[text-shadow:0_0_2px_rgb(0_0_0/1),0_2px_22px_rgb(0_0_0/0.8),0_5px_40px_rgb(0_0_0/0.5)] sm:text-6xl md:text-7xl">
+                huntiez
+              </h1>
+              <h2 className="mt-4 max-w-full font-mono text-xl lowercase tracking-[0.08em] text-[color:var(--hero-copy-strong)] dark:[text-shadow:0_1px_16px_rgb(0_0_0/0.85)] md:text-2xl">
+                dev <span className="text-[color:var(--hero-copy-faint)]">&amp;</span> ai engineer
+              </h2>
+              <p className="mt-6 max-w-full text-base lowercase leading-relaxed tracking-wide text-[color:var(--hero-copy-body)] dark:[text-shadow:0_1px_14px_rgb(0_0_0/0.82)] md:ml-auto md:max-w-[21rem] md:text-[1rem] md:leading-relaxed">
+                hey - i&apos;m hunter. i build fast web products, ship experiments,
+                and care about motion, ux, and sharp interfaces.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-3 md:flex-row-reverse md:justify-end">
+                <Link
+                  href="/projects"
+                  className="border border-[color:var(--hero-phosphor)] bg-[color:var(--hero-phosphor)] px-6 py-3 text-base font-medium lowercase tracking-wide text-[color:var(--hero-on-phosphor)] antialiased shadow-[inset_0_1px_0_rgba(255,255,255,0.22)] transition-colors hover:bg-transparent hover:text-[color:var(--hero-phosphor)]"
+                  style={{
+                    clipPath:
+                      "polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)",
+                  }}
+                >
+                  projects
+                </Link>
+                <Link
+                  href="/about"
+                  className="border border-[color:var(--hero-about-border)] bg-[color:var(--hero-about-bg)] px-6 py-3 text-base lowercase tracking-wide text-[color:var(--hero-copy-title)] transition-colors hover:border-[color:var(--hero-phosphor)] hover:bg-[color:var(--hero-about-hover-bg)] hover:text-[color:var(--hero-phosphor)]"
+                  style={{
+                    clipPath:
+                      "polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)",
+                  }}
+                >
+                  about
+                </Link>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+      <SiteFooter />
+    </SiteFrame>
   );
 }
