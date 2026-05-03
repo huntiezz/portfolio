@@ -1,8 +1,6 @@
-import type { ReactNode } from "react";
 import PortfolioLayout from "@/components/portfolio/PortfolioLayout";
 import BrandFavicon from "@/components/portfolio/BrandFavicon";
 import Link from "next/link";
-import { Zap, Sparkles } from "lucide-react";
 
 const aboutLink =
   "border-b border-[color:var(--accent-blue)] pb-px font-medium text-[color:var(--accent-blue)] underline-offset-[3px] transition-colors hover:bg-[color:var(--accent-blue)] hover:text-[color:var(--hero-on-phosphor)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]";
@@ -22,21 +20,6 @@ function SwedenFlagIcon({ className = "" }: { className?: string }) {
       <rect width="16" height="10" fill="#006AA7" />
       <path fill="#FECC00" d="M5 0h2v10H5zM0 4h16v2H0z" />
     </svg>
-  );
-}
-
-function Spark({ children, icon }: { children: ReactNode; icon: "zap" | "sparkles" }) {
-  const Icon = icon === "zap" ? Zap : Sparkles;
-  return (
-    <span className="inline-flex items-baseline gap-1.5">
-      <span
-        className="inline-flex h-[1.2em] w-[1.2em] shrink-0 translate-y-[0.06em] items-center justify-center rounded-[2px] bg-[color:var(--hero-phosphor)]/[0.12] text-[color:var(--accent-blue)] dark:bg-[color:var(--hero-phosphor)]/[0.15]"
-        aria-hidden
-      >
-        <Icon className="h-[0.72em] w-[0.72em]" strokeWidth={2.25} />
-      </span>
-      <span>{children}</span>
-    </span>
   );
 }
 
@@ -62,19 +45,19 @@ export default function AboutPage() {
                 <BrandFavicon size={20} className="h-5 w-5 shrink-0" />
               </span>
               {" "}
-              - i&apos;m fifteen and based in sweden <SwedenFlagIcon />.
+              - i&apos;m fifteen and based in sweden <SwedenFlagIcon />
             </p>
 
             <p className="text-pretty">
               i care about shipping real software people touch: realtime uis, apis, and tight feedback loops. i&apos;ve
-              built storefronts, waitlists, internal tools, and experiments - always chasing{" "}
-              <Spark icon="zap">performance</Spark>
+              built storefronts, waitlists, internal tools, and experiments — always chasing{" "}
+              <strong className="font-medium text-foreground">performance</strong>
               {" and "}
-              <Spark icon="sparkles">craft</Spark>.
+              <strong className="font-medium text-foreground">craft</strong>.
             </p>
 
             <section className="space-y-3" aria-labelledby="about-stack-heading">
-              <h2 id="about-stack-heading" className="font-mono text-[11px] uppercase tracking-[0.32em] text-foreground/45">
+              <h2 id="about-stack-heading" className="text-[1.05rem] font-semibold lowercase tracking-tight text-foreground sm:text-lg">
                 stack & languages
               </h2>
               <p className="text-pretty">
@@ -105,7 +88,7 @@ export default function AboutPage() {
             </p>
 
             <section className="space-y-3" aria-labelledby="about-then-heading">
-              <h2 id="about-then-heading" className="font-mono text-[11px] uppercase tracking-[0.32em] text-foreground/45">
+              <h2 id="about-then-heading" className="text-[1.05rem] font-semibold lowercase tracking-tight text-foreground sm:text-lg">
                 before
               </h2>
               <p className="text-pretty">
