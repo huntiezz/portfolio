@@ -124,6 +124,25 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
     media: [{ src: "/discordplugmedia.png", alt: "DiscordPlug product surfaces" }],
   },
   {
+    id: "phase",
+    kind: "work",
+    portfolioTitle: "phase.uno",
+    role: "website contract",
+    timeline: "contract | completed",
+    summary:
+      "built phase.uno on a freelance contract - shipped the client-facing storefront and marketing site, then handed off after delivery.",
+    bullets: [
+      "delivered the marketing website and storefront for phase.uno on a fixed-scope freelance contract.",
+      "worked within client briefs on branding, layout, product catalog, and conversion paths.",
+      "engagement ended after delivery; no ongoing access to the repo or hosting.",
+    ],
+    link: "https://phase.uno/",
+    coverSrc: "/phaselogo.png",
+    coverAlt: "phase.uno",
+    coverClassName: "object-contain max-w-[9rem]",
+    media: [{ src: "/phasemedia.png", alt: "phase.uno storefront and product surfaces" }],
+  },
+  {
     id: "clovr",
     kind: "work",
     portfolioTitle: "clovr",

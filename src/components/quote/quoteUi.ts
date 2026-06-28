@@ -3,9 +3,12 @@ import clsx from "clsx";
 export const quoteCardBase =
   "group relative flex min-h-[9.5rem] flex-col items-start gap-4 border p-6 text-left transition-colors duration-200 sm:min-h-[10.5rem] sm:p-8";
 
-export function quoteCardClass(selected: boolean) {
+export const quoteCardCompact =
+  "group relative flex min-h-0 flex-col items-start gap-4 border p-5 text-left transition-colors duration-200 sm:p-6";
+
+export function quoteCardClass(selected: boolean, compact = false) {
   return clsx(
-    quoteCardBase,
+    compact ? quoteCardCompact : quoteCardBase,
     selected
       ? "border-[#0c50ff] bg-[#0c50ff] text-[#eeeeee]"
       : "border-border bg-transparent text-foreground hover:border-[#0c50ff]",
@@ -29,9 +32,16 @@ export function quoteCardPriceClass(selected: boolean) {
 
 export const quoteGrid = "mt-10 grid gap-4 sm:grid-cols-2";
 
+export const quoteGridPair = "mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4";
+
+export const quoteGridStack = "mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:gap-4";
+
 export const quoteGridThree = "mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3";
 
 export const quoteGridFour = "mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5";
+
+export const quoteFlowContent =
+  "relative flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-6 py-8 sm:px-10 sm:py-10";
 
 export const quoteKicker = "font-mono text-xs uppercase tracking-[0.18em] text-[#0c50ff]";
 
@@ -47,7 +57,14 @@ export const quoteTextarea =
   "min-h-[11rem] w-full resize-none border border-border bg-transparent p-4 pb-10 text-base lowercase leading-relaxed tracking-wide text-foreground outline-none transition-colors placeholder:text-foreground/30 focus:border-[#0c50ff]";
 
 export const quoteBtnBase =
-  "inline-flex items-center justify-center gap-2 px-6 py-3 text-sm lowercase tracking-wide transition-colors sm:text-base";
+  "inline-flex items-center justify-center gap-2 px-6 py-3 text-sm lowercase leading-none tracking-wide transition-colors sm:text-base";
+
+export const quotePricingBtn =
+  "inline-flex min-h-[48px] w-full items-center justify-center gap-2 px-6 py-3 text-sm lowercase leading-none tracking-wide transition-colors sm:w-auto sm:text-base";
+
+export const quotePricingBtnPrimary = `${quotePricingBtn} group border border-[#0c50ff] bg-[#0c50ff] text-[#eeeeee] hover:bg-transparent hover:text-[#0c50ff]`;
+
+export const quotePricingBtnSecondary = `${quotePricingBtn} group border border-border bg-transparent text-foreground hover:border-[#0c50ff] hover:text-[#0c50ff]`;
 
 export const quoteContinueBtn =
   "group mt-10 border border-[#0c50ff] bg-[#0c50ff] text-[#eeeeee] hover:bg-transparent hover:text-[#0c50ff] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-[#0c50ff] disabled:hover:text-[#eeeeee]";

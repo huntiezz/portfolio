@@ -38,3 +38,6 @@ next-env.d.ts
 start.sh
 skills-lock.json
 .agents/skills/emil-design-eng/SKILL.md
+
+# local purchase invoice cache
+.data/

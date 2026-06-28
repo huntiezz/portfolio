@@ -202,10 +202,14 @@ function resolvePerfTier(): PerfTier {
   return "high";
 }
 
-function fitCanvasToParent(canvas: HTMLCanvasElement, parent: HTMLElement, tier: PerfTier) {
+function fitCanvasToParent(
+  canvas: HTMLCanvasElement,
+  parent: HTMLElement,
+  tier: PerfTier,
+): { cssHeight: number } | null {
   const w = parent.clientWidth;
   const h = parent.clientHeight;
-  if (w < 1 || h < 1) return;
+  if (w < 1 || h < 1) return null;
 
   const narrowPhone = w < 520;
 
@@ -238,11 +242,26 @@ function fitCanvasToParent(canvas: HTMLCanvasElement, parent: HTMLElement, tier:
     ihMin = 72;
   }
 
-  const IW = clamp(Math.round(w / cell), minW, maxW);
-  const canvasH = Math.max(ihMin, Math.round(IW * (h / w)));
+  let IW = clamp(Math.round(w / cell), minW, maxW);
+  let cellDisplay = w / IW;
+  let IH = Math.floor(h / cellDisplay);
+
+  while (IH < ihMin && IW < maxW) {
+    IW++;
+    cellDisplay = w / IW;
+    IH = Math.floor(h / cellDisplay);
+  }
+
+  IH = Math.max(1, IH);
 
   canvas.width = IW;
-  canvas.height = canvasH;
+  canvas.height = IH;
+
+  const cssHeight = IH * cellDisplay;
+  canvas.style.width = "100%";
+  canvas.style.height = `${cssHeight}px`;
+
+  return { cssHeight };
 }
 
 function paint(
@@ -407,7 +426,7 @@ export default function DitherFluidCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      className="pointer-events-none absolute bottom-0 left-0 w-full"
       style={{ imageRendering: "pixelated" }}
       aria-hidden
     />

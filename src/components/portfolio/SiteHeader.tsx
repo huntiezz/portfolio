@@ -6,7 +6,6 @@ const NAV = [
   { href: "/about", label: "about" },
   { href: "/projects", label: "projects" },
   { href: "/pricing", label: "pricing" },
-  { href: "/open-source", label: "open source" },
   { href: "/links", label: "links" },
 ] as const;
 
@@ -20,7 +19,7 @@ export default function SiteHeader() {
   return (
     <>
       <nav
-        className="flex w-full flex-col border-b border-border bg-background md:hidden"
+        className="flex w-full shrink-0 flex-col border-b border-border bg-background md:hidden"
         aria-label="Primary navigation"
       >
         <div className="flex min-w-0 items-stretch">
@@ -36,7 +35,7 @@ export default function SiteHeader() {
           </div>
           <ThemeToggle variant="segmented" />
         </div>
-        <div className="grid w-full grid-cols-5 border-t border-border">
+        <div className="grid w-full grid-cols-4 border-t border-border">
           {NAV.map((item, i) => (
             <Link
               key={item.href}
@@ -50,7 +49,7 @@ export default function SiteHeader() {
       </nav>
 
       <nav
-        className="hidden w-full border-b border-border bg-background md:flex"
+        className="hidden w-full shrink-0 border-b border-border bg-background md:flex"
         aria-label="Primary navigation"
       >
         <div className="flex items-center justify-center border-r border-border px-6 py-3.5">

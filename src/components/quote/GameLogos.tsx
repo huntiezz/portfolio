@@ -23,12 +23,12 @@ function LogoSvg({ className, children }: { className?: string; children: ReactN
 
 function MinecraftLogo({ className }: { className?: string }) {
   return (
-    <LogoSvg className={className}>
-      <path d="M12 2.5 21.5 7.25 12 12 2.5 7.25Z" />
-      <path d="M2.5 7.25 12 12v9.5l-9.5-4.75V7.25Z" opacity="0.7" />
-      <path d="M12 12l9.5-4.75v9.5L12 21.5V12Z" opacity="0.45" />
-      <path d="M5.5 6.25h1.75v1.75H5.5Zm5.25 0h1.75v1.75h-1.75Zm5.25 0H17.5v1.75H16Z" opacity="0.32" />
-    </LogoSvg>
+    <img
+      src="/games/minecraft.svg"
+      alt=""
+      aria-hidden
+      className={clsx("h-full w-full object-contain", className)}
+    />
   );
 }
 

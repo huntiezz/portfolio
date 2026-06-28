@@ -157,63 +157,63 @@ export const QUOTE_SERVICE_VARIANTS: readonly QuoteServiceVariantOption[] = [
     service: "frontend",
     title: "landing page",
     description: "marketing site, hero to footer",
-    basePrice: 350,
+    basePrice: 100,
   },
   {
     id: "frontend-app",
     service: "frontend",
     title: "app / dashboard",
     description: "app ui, dashboards, complex flows",
-    basePrice: 650,
+    basePrice: 175,
   },
   {
     id: "backend-api",
     service: "backend",
     title: "api / integration",
     description: "rest, auth, webhooks, glue code",
-    basePrice: 450,
+    basePrice: 125,
   },
   {
     id: "backend-platform",
     service: "backend",
     title: "platform / infra",
     description: "databases, services, production systems",
-    basePrice: 850,
+    basePrice: 200,
   },
   {
     id: "software-tooling",
     service: "software",
     title: "tooling / utility",
     description: "c++, go cli, native helpers",
-    basePrice: 500,
+    basePrice: 150,
   },
   {
     id: "software-system",
     service: "software",
     title: "performance system",
     description: "low-level, optimized systems work",
-    basePrice: 900,
+    basePrice: 275,
   },
   {
     id: "software-hacks-clients",
     service: "software",
     title: "hacks / clients",
     description: "game cheats, clients, loaders",
-    basePrice: 650,
+    basePrice: 200,
   },
   {
     id: "full-web-mvp",
     service: "full-web",
     title: "mvp / launch",
     description: "ui + api, auth, core features shipped",
-    basePrice: 850,
+    basePrice: 250,
   },
   {
     id: "full-web-product",
     service: "full-web",
     title: "full product",
     description: "dashboard, api, database, deploy path",
-    basePrice: 1350,
+    basePrice: 325,
   },
 ];
 
@@ -235,6 +235,13 @@ const TIMELINE_MULT: Record<QuoteTimeline, number> = {
   flexible: 0.92,
 };
 
+const QUOTE_PRICE_MIN = 50;
+const QUOTE_PRICE_MAX = 500;
+
+function roundQuotePrice(n: number): number {
+  return Math.round(n / 25) * 25;
+}
+
 export function estimateQuote(data: QuoteFormData): { low: number; high: number } | null {
   const variant = getServiceVariantOption(data.serviceVariant);
   if (!variant) return null;
@@ -242,12 +249,14 @@ export function estimateQuote(data: QuoteFormData): { low: number; high: number 
   const timeline = data.timeline ?? "medium";
   const mult = TIMELINE_MULT[timeline];
   const descBoost = data.description.trim().length > 120 ? 1.12 : 1;
-  const mid = Math.round(variant.basePrice * mult * descBoost);
+  const mid = variant.basePrice * mult * descBoost;
 
-  return {
-    low: Math.round((mid * 0.85) / 50) * 50,
-    high: Math.round((mid * 1.25) / 50) * 50,
-  };
+  let low = roundQuotePrice(mid * 0.85);
+  let high = roundQuotePrice(mid * 1.25);
+  low = Math.min(Math.max(low, QUOTE_PRICE_MIN), QUOTE_PRICE_MAX);
+  high = Math.min(Math.max(high, low), QUOTE_PRICE_MAX);
+
+  return { low, high };
 }
 
 export function isValidContactValue(method: QuoteContactMethod | null, value: string): boolean {

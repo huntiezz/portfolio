@@ -5,8 +5,8 @@ export default function SiteFooter({ home = false }: { home?: boolean }) {
     <footer
       className={
         home
-          ? "border-t border-white/[0.08] bg-[var(--void)] px-8 py-3 text-xs lowercase tracking-wide text-white/55 sm:px-16 md:py-4"
-          : "border-t border-border px-8 py-3 text-xs lowercase tracking-wide text-foreground/60 sm:px-16 md:py-4"
+          ? "shrink-0 border-t border-white/[0.08] bg-[var(--void)] px-8 py-3 text-xs lowercase tracking-wide text-white/55 sm:px-16 md:py-4"
+          : "shrink-0 border-t border-border px-8 py-3 text-xs lowercase tracking-wide text-foreground/60 sm:px-16 md:py-4"
       }
     >
       <div className="mx-auto flex w-full flex-row items-center justify-between gap-3 md:justify-center">

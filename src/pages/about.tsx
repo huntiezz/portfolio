@@ -79,9 +79,9 @@ export default function AboutPage() {
               <Link href="/projects" className={aboutLink}>
                 experiences
               </Link>
-              . public repos, source, and zip downloads live under{" "}
-              <Link href="/open-source" className={aboutLink}>
-                open source
+              . public repos and source are available to buy on{" "}
+              <Link href="/pricing" className={aboutLink}>
+                pricing
               </Link>
               .
             </p>

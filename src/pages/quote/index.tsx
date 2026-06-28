@@ -14,9 +14,11 @@ const QuoteFlow = dynamic(() => import("@/components/quote/QuoteFlow"), {
 
 export default function QuotePage() {
   return (
-    <SiteFrame>
+    <SiteFrame variant="flow">
       <SiteHeader />
-      <QuoteFlow />
+      <main className="flex min-h-0 flex-1 flex-col">
+        <QuoteFlow />
+      </main>
       <SiteFooter />
     </SiteFrame>
   );
