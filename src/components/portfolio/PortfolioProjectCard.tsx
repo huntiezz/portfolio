@@ -141,7 +141,7 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
               <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--hero-copy-faint)]">
                 overview
               </h3>
-              <div className="mt-3 max-h-[18rem] space-y-3 overflow-y-auto rounded-sm border border-[color:var(--card-border)] bg-[color:var(--hero-about-bg)] p-3 text-[0.95rem] leading-relaxed text-[color:var(--hero-copy-body)]">
+              <div className="mt-3 max-h-[18rem] space-y-3 overflow-y-auto rounded-sm border border-[color:var(--card-border)] bg-[color:var(--hero-about-bg)] p-3 text-[0.95rem] leading-relaxed text-[color:var(--hero-copy-body)] shadow-[inset_0_1px_0_var(--card-inset),0_4px_12px_rgba(15,23,42,0.06)] dark:shadow-[inset_0_1px_0_var(--card-inset),0_4px_16px_rgba(0,0,0,0.22)]">
                 {entry.bullets.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
