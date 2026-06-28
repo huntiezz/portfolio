@@ -16,8 +16,8 @@ export default function OpenSourcePage() {
             open source
           </h1>
           <p className="mt-6 max-w-2xl text-pretty text-lg lowercase leading-relaxed tracking-wide text-foreground/90 sm:text-xl">
-            public <span className="normal-case">GitHub</span> work with clone snippets and archive zips. for roles and
-            shipped client builds see{" "}
+            public <span className="normal-case">GitHub</span> work with clone snippets and archive zips. for
+            roles and shipped client builds see{" "}
             <Link
               href="/projects"
               className="text-foreground underline decoration-foreground/35 underline-offset-[5px] transition-colors hover:text-[color:var(--accent-blue)] hover:decoration-[color:var(--accent-blue)]"
@@ -41,8 +41,7 @@ export default function OpenSourcePage() {
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2.5 border border-border px-8 py-3.5 text-base tracking-wide text-foreground transition-colors hover:border-[color:var(--accent-blue)] hover:text-[color:var(--accent-blue)]"
             style={{
-              clipPath:
-                "polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)",
+              clipPath: "polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)",
             }}
           >
             <GitHubMarkIcon className="h-5 w-5 shrink-0 text-foreground/90" aria-hidden />

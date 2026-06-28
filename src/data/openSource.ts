@@ -41,8 +41,7 @@ export const OPEN_SOURCE_PROJECTS: readonly OpenSourceProject[] = [
     id: "surgecheats",
     name: "surgecheats",
     tagline: "sellhub storefront shell",
-    description:
-      "Client storefront experiment layering hosted checkout primitives into product grids.",
+    description: "Client storefront experiment layering hosted checkout primitives into product grids.",
     stack: ["typescript", "react"],
     repoUrl: "https://github.com/huntiezz/surgecheats",
     defaultBranch: "main",
@@ -69,10 +68,7 @@ export const OPEN_SOURCE_PROJECTS: readonly OpenSourceProject[] = [
   },
 ];
 
-export function githubArchiveZipUrl(
-  repoUrl: string,
-  branch = "main",
-): string | null {
+export function githubArchiveZipUrl(repoUrl: string, branch = "main"): string | null {
   try {
     const u = new URL(repoUrl);
     if (u.hostname !== "github.com") return null;

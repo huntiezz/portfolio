@@ -1,6 +1,5 @@
 import type { SVGProps } from "react";
 
-/** GitHub invertocat mark (Octicons `mark-github-24`, Primer v19+). */
 export default function GitHubMarkIcon(props: SVGProps<SVGSVGElement>) {
   const { className, ...rest } = props;
   return (

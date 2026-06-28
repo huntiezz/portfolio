@@ -4,6 +4,7 @@ export type PortfolioMediaItem = {
   src: string;
   alt: string;
   type?: "image" | "video";
+  contain?: boolean;
 };
 
 export type PortfolioShowcaseLink = {
@@ -35,11 +36,11 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
     role: "Frontend Developer",
     timeline: "March 2026 - Present",
     summary:
-      "Assisting across projects including Vaultcord, a discord bot focused on server security and moderation. Building skills in cybersecurity practices and bot development.",
+      "Frontend developer on Vaultcord and other NelsonCyber projects - shipping dashboards, marketing pages, and product UI.",
     bullets: [
-      "Newest role at NelsonCybersecurity LLC while learning how a formal cybersecurity outfit ships software.",
-      "Assisting Vaultcord-focused work plus adjacent initiatives - gaining experience in security-minded bot development.",
-      "Pairing pragmatic frontend tweaks with infra + policy constraints from teammates.",
+      "Frontend role at NelsonCybersecurity LLC, focused on Vaultcord and adjacent product surfaces.",
+      "Built client-facing UI for Vaultcord, a Discord bot for server security and moderation.",
+      "Collaborated with the team on layout, components, and iterative frontend polish.",
     ],
     link: "https://nelsoncybersecurity.com/",
     coverSrc: "/vaultcordlogo.webp",
@@ -47,11 +48,106 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
     media: [{ src: "/vaultcordmedia.png", alt: "Vaultcord product context" }],
   },
   {
+    id: "polarity",
+    kind: "work",
+    portfolioTitle: "polarity.top",
+    role: "Developer",
+    timeline: "Present",
+    summary:
+      "Building and maintaining polarity.top - a premium game-enhancements storefront with instant delivery, live status, and checkout flows.",
+    bullets: [
+      "Shipped marketing surfaces, product catalog, and account/dashboard paths for polarity.top.",
+      "Integrated payment and fulfillment UX around instant license delivery.",
+      "Maintained status and docs surfaces tied to live product detection states.",
+    ],
+    link: "https://polarity.top/",
+    coverSrc: "/polaritylogo.png",
+    coverAlt: "polarity.top",
+    coverClassName: "object-contain max-w-[9rem]",
+    media: [{ src: "/polaritymedia.png", alt: "polarity.top storefront and product surfaces" }],
+  },
+  {
+    id: "storra",
+    kind: "work",
+    portfolioTitle: "Storra",
+    role: "Developer & Owner",
+    timeline: "April 2026",
+    summary:
+      "Founding and building storra.host - owning product direction, frontend, and the core hosting experience.",
+    bullets: [
+      "Own storra.host end-to-end as developer and owner - brand, site, and customer-facing flows.",
+      "Shipped landing, pricing, and onboarding paths for the hosting product.",
+      "Iterate on infra-adjacent UX around provisioning and account management.",
+    ],
+    link: "https://storra.host/",
+    coverSrc: "/storralogo.ico",
+    coverAlt: "Storra",
+    coverClassName: "object-contain max-w-[9rem]",
+    media: [{ src: "/storramedia.png", alt: "Storra marketing site and product surfaces" }],
+  },
+  {
+    id: "storra-cloud",
+    kind: "work",
+    portfolioTitle: "Storra Cloud",
+    role: "Developer & Owner",
+    timeline: "June 2026",
+    summary:
+      "Building cloud.storra.host - the cloud console and product layer behind storra’s hosted infrastructure offering.",
+    bullets: [
+      "Developed cloud.storra.host as the operational surface for storra’s cloud product.",
+      "Own dashboard, deployment, and account UX as co-owner of the storra stack.",
+      "Pair console polish with the main storra.host marketing and billing footprint.",
+    ],
+    link: "https://cloud.storra.host/",
+    coverSrc: "/storracloudlogo.png",
+    coverAlt: "Storra Cloud",
+    coverClassName: "object-contain max-w-[9rem]",
+    media: [{ src: "/cloudmedia.png", alt: "Storra Cloud console and dashboard" }],
+  },
+  {
+    id: "discordplug",
+    kind: "work",
+    portfolioTitle: "DiscordPlug",
+    role: "website contract",
+    timeline: "contract | completed",
+    summary:
+      "built discordplug.gg on a freelance contract - shipped the client-facing site, then lost access after handoff.",
+    bullets: [
+      "delivered the marketing website for discordplug.gg on a fixed-scope freelance contract.",
+      "worked within client briefs on branding, layout, and conversion paths.",
+      "engagement ended after delivery; no ongoing access to the repo or hosting.",
+    ],
+    link: "https://discordplug.gg/",
+    coverSrc: "/discordpluglogo.png",
+    coverAlt: "DiscordPlug",
+    coverClassName: "object-contain max-w-[9rem]",
+    media: [{ src: "/discordplugmedia.png", alt: "DiscordPlug product surfaces" }],
+  },
+  {
+    id: "clovr",
+    kind: "work",
+    portfolioTitle: "clovr",
+    role: "Developer",
+    timeline: "Present",
+    summary:
+      "Building blinq.lol / clovr - a minecraft bedrock client for Windows with launcher flows, dashboard auth, and clovr+ premium modules.",
+    bullets: [
+      "Shipped marketing and account surfaces for clovr on blinq.lol.",
+      "Built sign-up, xbox linking, and dashboard paths around client launch.",
+      "Supported server-picker UX for lifeboat, donutsmp, and 2b2tpe entry points.",
+    ],
+    link: "https://blinq.lol/",
+    coverSrc: "/clovrlogo.svg",
+    coverAlt: "clovr",
+    coverClassName: "object-contain max-w-[9rem] p-3",
+    media: [{ src: "/clovrmedia.png", alt: "clovr launcher and client surfaces" }],
+  },
+  {
     id: "sellauth",
     kind: "work",
-    portfolioTitle: "SellAuth · Ignite",
+    portfolioTitle: "SellAuth | Ignite",
     role: "Frontend Developer",
-    timeline: "February 2026 - Present",
+    timeline: "February 2026 - April 2026",
     summary:
       "Joined as a frontend developer contributing to ignite, an open-source chat platform, and sellauth’s marketing surfaces.",
     bullets: [
@@ -63,7 +159,7 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
     coverSrc: "/sellauth.png",
     coverAlt: "SellAuth",
     coverClassName: "object-contain max-w-[15rem]",
-    media: [{ src: "/sellauthmedia.png", alt: "SellAuth · Ignite product surfaces" }],
+    media: [{ src: "/sellauthmedia.png", alt: "SellAuth | Ignite product surfaces" }],
   },
   {
     id: "swiftly",
@@ -71,8 +167,7 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
     portfolioTitle: "Swiftly.gg",
     role: "Founder",
     timeline: "October 2025 - March 2026",
-    summary:
-      "Founded an e-commerce platform while owning development, design, and ai-assisted tooling.",
+    summary: "Founded an e-commerce platform while owning development, design, and ai-assisted tooling.",
     bullets: [
       "Designed and shipped swiftly’s storefront layer and supporting infrastructure.",
       "Balanced entrepreneurship, engineering, and product iteration as a solo operator.",
@@ -113,9 +208,7 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
     coverSrc: "/bracketmedia.png",
     coverAlt: "Bracket product screenshot",
     media: [{ src: "/bracketmedia.png", alt: "Bracket board overview" }],
-    showcaseLinks: [
-      { label: "watch on youtube", href: "https://www.youtube.com/watch?v=dZDwycKJ8z0" },
-    ],
+    showcaseLinks: [{ label: "watch on youtube", href: "https://www.youtube.com/watch?v=dZDwycKJ8z0" }],
   },
   {
     id: "ignite-showcase",
@@ -132,9 +225,7 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
     coverSrc: "/ignitemedia.png",
     coverAlt: "Ignite landing screenshot",
     media: [{ src: "/ignitemedia.png", alt: "Ignite marketing site" }],
-    showcaseLinks: [
-      { label: "watch on youtube", href: "https://www.youtube.com/watch?v=WkmosNbtwLA" },
-    ],
+    showcaseLinks: [{ label: "watch on youtube", href: "https://www.youtube.com/watch?v=WkmosNbtwLA" }],
   },
   {
     id: "tap-waitlist",
@@ -221,8 +312,7 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
     portfolioTitle: "Safello",
     role: "QA Intern",
     timeline: "September 2025 - October 2025",
-    summary:
-      "One-week intensive internship focused on professional qa processes inside regulated fintech.",
+    summary: "One-week intensive internship focused on professional qa processes inside regulated fintech.",
     bullets: [
       "Ran structured testing passes against production-adjacent environments.",
       "Observed qa rituals, release gates, and cross-team escalation patterns.",
@@ -271,13 +361,15 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
   },
   {
     id: "webhook-wizardy",
-    kind: "side",
+    kind: "work",
     portfolioTitle: "Webhook Wizardy",
     role: "Developer",
     timeline: "April 2025",
-    summary:
-      "First-ever shipped website: a blunt webhook tooling experiment deployed on vercel.",
-    bullets: ["Explored foundational html/css/js ergonomics.", "Captured early deployment habits on modern edge hosting."],
+    summary: "First-ever shipped website: a blunt webhook tooling experiment deployed on vercel.",
+    bullets: [
+      "Explored foundational html/css/js ergonomics.",
+      "Captured early deployment habits on modern edge hosting.",
+    ],
     link: "https://webhookwizardy.vercel.app/",
     coverSrc: "/webhookwizardymedia.png",
     coverAlt: "Webhook Wizardy preview",
@@ -285,7 +377,7 @@ export const PORTFOLIO_CARDS: PortfolioCardData[] = [
   },
   {
     id: "encryption-shop",
-    kind: "side",
+    kind: "work",
     portfolioTitle: "Encryption",
     role: "Founder",
     timeline: "September 2024 - December 2024",

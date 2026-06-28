@@ -8,9 +8,7 @@ export default function PortfolioLayout({ children }: { children: ReactNode }) {
     <SiteFrame>
       <SiteHeader />
       <div className="flex min-h-0 flex-1 flex-col">
-        <main className="relative min-h-0 flex-1 px-5 py-12 sm:px-10 sm:py-16 md:px-14 md:py-20 lg:px-16 lg:py-24">
-          {children}
-        </main>
+        <main className="relative min-h-0 flex-1 px-8 py-16 sm:px-16 sm:py-24">{children}</main>
       </div>
       <SiteFooter />
     </SiteFrame>

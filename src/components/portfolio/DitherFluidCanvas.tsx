@@ -13,16 +13,19 @@ const BAYER_8 = [
   [63, 31, 55, 23, 61, 29, 53, 21],
 ];
 
-const DEFAULT_HI_R = 48;
-const DEFAULT_HI_G = 218;
-const DEFAULT_HI_B = 188;
+const DEFAULT_HI_R = 41;
+const DEFAULT_HI_G = 112;
+const DEFAULT_HI_B = 255;
 
-const DEFAULT_LO_R = 5;
-const DEFAULT_LO_G = 5;
-const DEFAULT_LO_B = 8;
+const DEFAULT_LO_R = 0;
+const DEFAULT_LO_G = 0;
+const DEFAULT_LO_B = 0;
 
 function parseSpaceRgb(cssValue: string, fallback: [number, number, number]): [number, number, number] {
-  const parts = cssValue.trim().split(/\s+/).map((n) => Number.parseInt(n, 10));
+  const parts = cssValue
+    .trim()
+    .split(/\s+/)
+    .map((n) => Number.parseInt(n, 10));
   if (parts.length < 3 || parts.some(Number.isNaN)) return fallback;
   return [parts[0]!, parts[1]!, parts[2]!];
 }
@@ -103,19 +106,15 @@ function warp(x: number, y: number, t: number): [number, number] {
     0.37 * Math.cos(cx * Math.PI * 2 * 1.88 - flow * 0.92) +
     0.18 * Math.sin((cx - cy * 1.08) * Math.PI * 2 * 4.2 + flow * 0.62);
 
-  wx +=
-    0.065 *
-    Math.sin(wx * Math.PI * 2 * 13 + wy * Math.PI * 2 * 8 + flow * 1.15);
-  wy +=
-    0.06 *
-    Math.cos(wy * Math.PI * 2 * 10 - wx * Math.PI * 2 * 9 + flow * 0.88);
+  wx += 0.065 * Math.sin(wx * Math.PI * 2 * 13 + wy * Math.PI * 2 * 8 + flow * 1.15);
+  wy += 0.06 * Math.cos(wy * Math.PI * 2 * 10 - wx * Math.PI * 2 * 9 + flow * 0.88);
 
   return [wx, wy];
 }
 
 function fluidLite(x: number, y: number, t: number): number {
   const [wx, wy] = warp(x, y, t);
-  const zoom = 3.05;
+  const zoom = 2.45;
   const px = wx * zoom;
   const py = wy * zoom;
 
@@ -129,14 +128,17 @@ function fluidLite(x: number, y: number, t: number): number {
   const dx = x - 0.42;
   const dy = y - 0.5;
   const d = Math.hypot(dx, dy);
-  v *= 0.54 + 0.46 * Math.pow(clamp(1 - d * 0.76, 0, 1), 1.02);
+  v *= 0.68 + 0.32 * Math.pow(clamp(1 - d * 0.68, 0, 1), 0.95);
+
+  const bottomLeft = Math.pow(clamp(Math.hypot(x * 1.1, (1 - y) * 0.9), 0, 1), 0.82);
+  v *= 0.1 + 0.9 * bottomLeft;
 
   return clamp(v, 0, 1);
 }
 
 function fluidHigh(x: number, y: number, t: number): number {
   const [wx, wy] = warp(x, y, t);
-  const zoom = 3.05;
+  const zoom = 2.45;
   const px = wx * zoom;
   const py = wy * zoom;
 
@@ -162,7 +164,10 @@ function fluidHigh(x: number, y: number, t: number): number {
   const dx = x - 0.42;
   const dy = y - 0.5;
   const d = Math.hypot(dx, dy);
-  v *= 0.54 + 0.46 * Math.pow(clamp(1 - d * 0.76, 0, 1), 1.02);
+  v *= 0.68 + 0.32 * Math.pow(clamp(1 - d * 0.68, 0, 1), 0.95);
+
+  const bottomLeft = Math.pow(clamp(Math.hypot(x * 1.1, (1 - y) * 0.9), 0, 1), 0.82);
+  v *= 0.1 + 0.9 * bottomLeft;
 
   return clamp(v, 0, 1);
 }
@@ -197,11 +202,7 @@ function resolvePerfTier(): PerfTier {
   return "high";
 }
 
-function fitCanvasToParent(
-  canvas: HTMLCanvasElement,
-  parent: HTMLElement,
-  tier: PerfTier,
-) {
+function fitCanvasToParent(canvas: HTMLCanvasElement, parent: HTMLElement, tier: PerfTier) {
   const w = parent.clientWidth;
   const h = parent.clientHeight;
   if (w < 1 || h < 1) return;
@@ -214,27 +215,27 @@ function fitCanvasToParent(
   let ihMin: number;
 
   if (tier === "high") {
-    cell = 4;
-    maxW = 384;
-    minW = 220;
-    ihMin = 120;
+    cell = 7;
+    maxW = 280;
+    minW = 160;
+    ihMin = 100;
   } else if (tier === "low") {
     if (narrowPhone) {
-      cell = 10;
-      maxW = 140;
-      minW = 72;
-      ihMin = 64;
+      cell = 12;
+      maxW = 120;
+      minW = 64;
+      ihMin = 56;
     } else {
-      cell = 6;
-      maxW = 200;
-      minW = 100;
-      ihMin = 90;
+      cell = 8;
+      maxW = 180;
+      minW = 90;
+      ihMin = 80;
     }
   } else {
-    cell = 8;
-    maxW = 160;
-    minW = 80;
-    ihMin = 80;
+    cell = 10;
+    maxW = 140;
+    minW = 72;
+    ihMin = 72;
   }
 
   const IW = clamp(Math.round(w / cell), minW, maxW);
@@ -260,7 +261,7 @@ function paint(
   if (IW < 2 || IH < 2) return;
 
   const fullQuality = tier === "high";
-  const ditherAmp = fullQuality ? 0.36 : 0.34;
+  const ditherAmp = fullQuality ? 0.44 : 0.4;
   const sample = fullQuality ? fluidHigh : fluidLite;
 
   if (!scratch.img || scratch.w !== IW || scratch.h !== IH) {
@@ -323,9 +324,7 @@ export default function DitherFluidCanvas() {
     const scratch = { img: null as ImageData | null, w: 0, h: 0 };
 
     const mqReduce =
-      typeof window !== "undefined"
-        ? window.matchMedia("(prefers-reduced-motion: reduce)")
-        : null;
+      typeof window !== "undefined" ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
 
     function paintTierForRuntime(): PerfTier {
       if (mqReduce?.matches) return "static";

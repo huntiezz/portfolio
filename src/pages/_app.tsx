@@ -1,12 +1,12 @@
 import "@/styles/globals.css";
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { GeistPixelSquare } from "geist/font/pixel";
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from "@vercel/analytics/next";
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const path = router.asPath.split("?")[0] === "/" ? "" : router.asPath.split("?")[0];
@@ -18,12 +18,12 @@ export default function App({ Component, pageProps }: AppProps) {
       >
         <Head>
           <title>huntiezzyyy</title>
-          <meta name="description" content="Developer portfolio - huntiez.com" />
-          <link rel="canonical" href={`https://huntiez.com${path}`} />
-          <meta name="theme-color" content="#131318" />
-          <meta property="og:url" content={`https://huntiez.com${path}`} />
+          <meta name="description" content="Developer portfolio - lukky.rip" />
+          <link rel="canonical" href={`https://lukky.rip${path}`} />
+          <meta name="theme-color" content="#323234" />
+          <meta property="og:url" content={`https://lukky.rip${path}`} />
           <meta property="og:title" content="huntiez folio" />
-          <meta property="og:description" content="Developer portfolio - huntiez.com" />
+          <meta property="og:description" content="Developer portfolio - lukky.rip" />
         </Head>
         <Component {...pageProps} />
         <Analytics />

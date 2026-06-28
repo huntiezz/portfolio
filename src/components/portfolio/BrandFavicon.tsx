@@ -15,7 +15,7 @@ export default function BrandFavicon({ size = 28, width, height, className = "",
       height={h}
       draggable={false}
       decoding="async"
-      className={`pointer-events-none object-contain ${className}`}
+      className={`object-contain ${className}`}
       aria-hidden
       {...rest}
     />

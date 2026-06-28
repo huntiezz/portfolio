@@ -2,20 +2,20 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import type { PortfolioCardData } from "@/data/portfolio";
 import Modal from "@/components/Modal";
 import PortfolioMediaCarousel from "@/components/portfolio/PortfolioMediaCarousel";
+import {
+  btnPrimary,
+  btnSecondary,
+  btnArrow,
+  cardShell,
+  coverShell,
+  CUT_CORNER_BTN,
+} from "@/components/portfolio/cardUi";
 import { getGallerySlides } from "@/lib/portfolioGallery";
-
-const CUT_CORNER_BTN =
-  "polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)";
-
-const COVER_DIMS =
-  "mx-auto h-[10rem] w-[10rem] shrink-0 sm:h-[11rem] sm:w-[11rem] md:mx-0 md:h-[12.5rem] md:w-[12.5rem]";
-
-const COVER_SHELL =
-  `${COVER_DIMS} overflow-hidden rounded-2xl border border-border bg-muted/20`;
 
 export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardData }) {
   const [detailOpen, setDetailOpen] = useState(false);
@@ -24,33 +24,32 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
 
   return (
     <li className="list-none">
-      <div className="relative flex flex-col gap-0 overflow-hidden rounded-sm border border-border bg-background p-4 pb-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] ring-1 ring-black/[0.04] dark:bg-[color:var(--hero-panel-bg)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] dark:ring-white/[0.06]">
-        <div className="relative z-[1] flex flex-col gap-5 md:flex-row md:items-stretch md:gap-6 md:pb-0">
-          <PortfolioCover
-            src={entry.coverSrc}
-            alt={entry.coverAlt}
-            className={entry.coverClassName}
-          />
+      <div className={cardShell}>
+        <div className="flex flex-col gap-6 sm:gap-7 md:flex-row md:items-stretch md:gap-8">
+          <PortfolioCover src={entry.coverSrc} alt={entry.coverAlt} className={entry.coverClassName} />
 
-          <div className="relative z-[2] flex min-w-0 flex-1 flex-col">
-            <h2 className="text-center font-pixel text-[2.65rem] leading-[0.95] lowercase tracking-wide text-foreground md:text-left md:text-[3.15rem]">
-              {entry.role}
-            </h2>
-            <p className="mt-3 text-center font-mono text-[13px] leading-snug lowercase tracking-[0.1em] text-foreground/50 md:text-left">
-              {entry.portfolioTitle}{" "}
-              <span className="text-foreground/30"> | </span> {entry.timeline}
-            </p>
-            <hr className="my-3 border-border" />
-            <p className="text-center text-lg lowercase leading-relaxed tracking-wide text-foreground/90 md:text-left md:text-[1.1rem] md:leading-[1.6]">
-              {entry.summary}
-            </p>
-            <div className="mt-4 flex flex-wrap justify-center gap-3 md:justify-start">
+          <div className="flex min-w-0 flex-1 flex-col md:min-h-[7.25rem]">
+            <div className="space-y-3">
+              <p className="text-center font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--hero-copy-faint)] md:text-left">
+                {entry.portfolioTitle}
+                <span className="mx-2 text-[color:var(--hero-copy-faint)]/70">|</span>
+                {entry.timeline}
+              </p>
+              <h2 className="text-center font-pixel text-[2.35rem] leading-[0.95] lowercase tracking-wide text-foreground sm:text-4xl md:text-left md:text-[2.85rem]">
+                {entry.role}
+              </h2>
+              <p className="max-w-2xl text-center text-base lowercase leading-relaxed tracking-wide text-[color:var(--hero-copy-body)] md:text-left md:text-[1.05rem] md:leading-[1.65]">
+                {entry.summary}
+              </p>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-auto md:pt-6">
               {safeLink ? (
                 <Link
                   href={safeLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-[48px] min-w-[11.5rem] flex-1 items-center justify-center border border-[color:var(--hero-about-border)] bg-[color:var(--hero-about-bg)] px-6 py-3.5 text-base lowercase tracking-wide text-[color:var(--hero-copy-title)] transition-colors hover:border-[color:var(--hero-phosphor)] hover:bg-[color:var(--hero-about-hover-bg)] hover:text-[color:var(--hero-phosphor)] dark:border-white/[0.12] dark:bg-[#12121a] dark:hover:border-[color:var(--hero-phosphor)] sm:flex-none"
+                  className={`${btnSecondary} w-full sm:w-auto sm:min-w-[10.5rem]`}
                   style={{ clipPath: CUT_CORNER_BTN }}
                 >
                   visit website
@@ -59,10 +58,11 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
               <button
                 type="button"
                 onClick={() => setDetailOpen(true)}
-                className="inline-flex min-h-[48px] min-w-[11.5rem] flex-1 items-center justify-center border border-[color:var(--hero-about-border)] bg-[color:var(--hero-about-bg)] px-6 py-3.5 text-base lowercase tracking-wide text-[color:var(--hero-copy-title)] transition-colors hover:border-[color:var(--hero-phosphor)] hover:bg-[color:var(--hero-about-hover-bg)] hover:text-[color:var(--hero-phosphor)] dark:border-white/[0.12] dark:bg-[#12121a] dark:hover:border-[color:var(--hero-phosphor)] sm:flex-none"
+                className={`${btnPrimary} w-full gap-2 sm:w-auto sm:min-w-[10.5rem]`}
                 style={{ clipPath: CUT_CORNER_BTN }}
               >
                 view more info
+                <ArrowRight className={btnArrow} aria-hidden />
               </button>
             </div>
           </div>
@@ -79,10 +79,12 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
                   href={safeLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-2 text-sm text-[color:var(--accent-blue)] underline decoration-[color:var(--accent-blue)] underline-offset-2"
+                  className="btn-with-arrow mt-2 inline-flex items-center gap-2 text-sm text-[color:var(--accent-blue)] underline decoration-[color:var(--accent-blue)] underline-offset-2"
                 >
                   visit website
-                  <span aria-hidden>↗</span>
+                  <span className="btn-arrow btn-arrow-external" aria-hidden>
+                    ↗
+                  </span>
                 </Link>
               ) : null}
               {entry.showcaseLinks && entry.showcaseLinks.length > 0 ? (
@@ -93,10 +95,12 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm text-[color:var(--accent-blue)] underline decoration-[color:var(--accent-blue)] underline-offset-2"
+                        className="btn-with-arrow inline-flex items-center gap-2 text-sm text-[color:var(--accent-blue)] underline decoration-[color:var(--accent-blue)] underline-offset-2"
                       >
                         {item.label}
-                        <span aria-hidden>↗</span>
+                        <span className="btn-arrow btn-arrow-external" aria-hidden>
+                          ↗
+                        </span>
                       </a>
                     </li>
                   ))}
@@ -118,14 +122,18 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
                 <p className="mt-1 text-lg text-foreground/90">{entry.role}</p>
               </div>
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground/55">timeline</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground/55">
+                  timeline
+                </h3>
                 <p className="mt-1 text-lg text-foreground/90">{entry.timeline}</p>
               </div>
             </div>
             <div className="hidden h-auto w-px bg-border lg:block" aria-hidden />
             <hr className="border-border lg:hidden" />
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground/55">overview</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground/55">
+                overview
+              </h3>
               <div className="mt-3 max-h-[18rem] space-y-3 overflow-y-auto rounded-sm border border-border bg-muted/10 p-3 text-[0.95rem] leading-relaxed text-foreground/85">
                 {entry.bullets.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
@@ -156,8 +164,8 @@ function PortfolioCover({
     return (
       <div
         className={twMerge(
-          COVER_SHELL,
-          "flex items-center justify-center border-dashed border-border/70 bg-muted/10",
+          coverShell,
+          "flex items-center justify-center border-dashed bg-[color:var(--hero-about-hover-bg)]/60",
         )}
       >
         <span className="sr-only">{alt || "project cover"}</span>
@@ -166,9 +174,9 @@ function PortfolioCover({
   }
 
   return (
-    <div className={COVER_SHELL}>
+    <div className={twMerge(coverShell, "self-center md:self-start")}>
       {isContained ? (
-        <div className="flex h-full w-full items-center justify-center p-3 md:p-3.5">
+        <div className="flex h-full w-full items-center justify-center p-2.5 sm:p-3">
           <img
             alt={alt || "project cover"}
             draggable={false}

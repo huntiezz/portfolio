@@ -6,7 +6,6 @@
 [![Contributors](https://img.shields.io/github/contributors/huntiezz/portfolio?style=flat-square)](https://github.com/huntiezz/portfolio/graphs/contributors)  
 [![Language](https://img.shields.io/github/languages/top/huntiezz/portfolio?style=flat-square)](https://github.com/huntiezz/portfolio)
 
-
 Personal website and online presence.  
 Built with Node.js, optimized for fast iteration locally and simple deployment.
 
@@ -24,16 +23,18 @@ It is designed to be minimal, readable, and easy to maintain without unnecessary
 You must have the following installed:
 
 ### Node.js
+
 Download from:
 https://nodejs.org/en
 
 Recommended version: **18.x or newer**
 
 Verify:
+
 ```bash
 node -v
 npm -v
-````
+```
 
 ### Git
 
@@ -118,9 +119,8 @@ git --version
 
 ## Notes
 
-* Node.js must be installed before running `npm install`
-* If dependencies break, delete `node_modules` and reinstall
-* Designed to stay simple and extensible
+- Node.js must be installed before running `npm install`
+- If dependencies break, delete `node_modules` and reinstall
+- Designed to stay simple and extensible
 
-
-huntiez.com
+lukky.rip

@@ -6,7 +6,7 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
@@ -25,25 +25,25 @@ const config: Config = {
         border: "var(--hairline)",
         background: "var(--bg)",
         foreground: "var(--body-fg)",
-        text: 'var(--text)',
-        primary: 'var(--primary)',
-        middle: 'var(--middle)',
-        secondary: 'var(--secondary)',
-        accent: 'var(--accent)',
+        text: "var(--text)",
+        primary: "var(--primary)",
+        middle: "var(--middle)",
+        secondary: "var(--secondary)",
+        accent: "var(--accent)",
       },
       borderWidth: {
-        1: '1px',
+        1: "1px",
       },
       keyframes: {
         wave: {
-          '0%': { transform: 'rotate(0deg)' },
-          '25%': { transform: 'rotate(-20deg)' },
-          '75%': { transform: 'rotate(20deg)' },
-          '100%': { transform: 'rotate(0deg)' },
+          "0%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(-20deg)" },
+          "75%": { transform: "rotate(20deg)" },
+          "100%": { transform: "rotate(0deg)" },
         },
       },
       animation: {
-        'wave': 'wave 0.8s linear',
+        wave: "wave 0.8s linear",
       },
     },
   },
