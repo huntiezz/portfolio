@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import type { PurchaseFormData } from "@/data/purchase";
 import { getPurchasePrice } from "@/data/purchase";
 import { buildCryptoInvoice, createOrderId } from "@/lib/cryptoInvoice";
+import { checkInvoicePayment } from "@/lib/cryptoPaymentMonitor";
+import { sendCryptoPaymentConfirmedEmails } from "@/lib/purchaseCryptoPaymentEmail";
 import { isValidPurchaseSubmission } from "@/lib/purchaseEmail";
 import {
   getPurchaseInvoice,
@@ -25,7 +27,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(404).json({ error: "invoice not found" });
     }
 
-    return res.status(200).json({ ok: true, ...record });
+    const shouldCheck = req.query.check === "1";
+    if (!shouldCheck) {
+      return res.status(200).json({ ok: true, ...record });
+    }
+
+    const payment = await checkInvoicePayment(record);
+    let nextRecord: typeof record = { ...record, payment };
+
+    const paymentChanged =
+      payment.status !== record.payment?.status ||
+      payment.txHash !== record.payment?.txHash ||
+      payment.confirmations !== record.payment?.confirmations ||
+      payment.logs.length !== (record.payment?.logs.length ?? 0);
+
+    const shouldSendEmails =
+      payment.status === "confirmed" && !record.paymentEmailsSent;
+
+    if (shouldSendEmails) {
+      try {
+        await sendCryptoPaymentConfirmedEmails(nextRecord, payment);
+        nextRecord = { ...nextRecord, paymentEmailsSent: true };
+      } catch {
+        /* keep polling - emails retry on next check until sent */
+      }
+    }
+
+    if (paymentChanged || shouldSendEmails) {
+      await savePurchaseInvoice(nextRecord);
+    }
+
+    return res.status(200).json({ ok: true, ...nextRecord });
   }
 
   if (req.method !== "POST") {

@@ -21,6 +21,7 @@ import {
 } from "@/data/purchasePayment";
 import { HUNTIEZ_DISCORD_URL, isValidContactValue } from "@/data/quote";
 import type { CryptoInvoice } from "@/lib/cryptoInvoice";
+import type { CryptoPaymentState } from "@/lib/cryptoPaymentState";
 import type { StoredPurchaseInvoice } from "@/lib/purchaseInvoiceStore";
 import { getPurchaseOrderPath } from "@/lib/purchaseOrderPaths";
 import MailSentAnimation from "@/components/quote/MailSentAnimation";
@@ -117,6 +118,9 @@ export default function PurchaseFlow({
   );
   const [invoice, setInvoice] = useState<CryptoInvoice | null>(initial.invoice);
   const [invoiceError, setInvoiceError] = useState<string | null>(null);
+  const [cryptoPaymentStatus, setCryptoPaymentStatus] = useState<
+    CryptoPaymentState["status"] | null
+  >(restoredInvoice?.payment?.status ?? null);
 
   const projects = useMemo(() => getPurchasableProjects(), []);
   const price = useMemo(() => getPurchasePrice(data), [data]);
@@ -265,10 +269,14 @@ export default function PurchaseFlow({
                       projectTitle={selectedProject.title}
                       scopeLabel={getPurchaseScopeLabel(data.scope) ?? ""}
                       priceLabel={formatPurchasePrice(price)}
+                      contactMethod={data.contactMethod}
+                      contactValue={data.contactValue}
+                      initialPayment={restoredInvoice?.payment ?? null}
+                      onPaymentStatusChange={setCryptoPaymentStatus}
                     />
                   ) : null}
 
-                  {data.contactMethod === "discord" ? (
+                  {data.contactMethod === "discord" && cryptoPaymentStatus !== "confirmed" ? (
                     <div className="mt-4 flex flex-wrap items-center gap-3">
                       <a
                         href={HUNTIEZ_DISCORD_URL}

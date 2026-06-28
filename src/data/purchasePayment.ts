@@ -57,5 +57,19 @@ export function purchaseCardConfirmationMessage(): string {
 }
 
 export function purchaseCryptoConfirmationMessage(): string {
-  return "your crypto invoice is ready. send the amount due within the accepted range before the rate lock expires - this covers normal wallet rounding and rate movement while your payment confirms.";
+  return "your crypto invoice is ready. scan the qr or send the exact amount due before the rate lock expires.";
+}
+
+export function purchaseCryptoPaidCustomerMessage(contactMethod: "email" | "discord"): string {
+  if (contactMethod === "email") {
+    return "payment received. invoice has been sent to me - i'll confirm and send the source to your email.";
+  }
+  return "payment received. invoice has been sent to me - i'll confirm and send the source on discord.";
+}
+
+export function purchaseCryptoPaidCustomerEmailBody(contactMethod: "email" | "discord"): string {
+  if (contactMethod === "email") {
+    return "your crypto payment went through. i've received the invoice and will confirm it, then send the project source to this email.";
+  }
+  return "your crypto payment went through. i've received the invoice and will confirm it, then send the project source on discord.";
 }

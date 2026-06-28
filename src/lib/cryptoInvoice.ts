@@ -76,6 +76,10 @@ function formatCryptoAmount(amount: number, maxDecimals: number): string {
   return fixed.replace(/(\.\d*?[1-9])0+$/, "$1").replace(/\.0+$/, "");
 }
 
+function toSmallestUnit(amount: number, decimals: number): string {
+  return BigInt(Math.round(amount * 10 ** decimals)).toString();
+}
+
 export async function fetchCryptoUsdRates(): Promise<Record<CryptoAsset, number>> {
   const ids = CRYPTO_ASSETS.map((a) => a.coingeckoId).join(",");
   const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`;
@@ -110,7 +114,7 @@ function buildPaymentUri(
     case "ltc":
       return `litecoin:${address}?amount=${amount}&label=huntiez&message=${encodeURIComponent(orderId)}`;
     case "eth":
-      return `ethereum:${address}?value=${amount}&label=huntiez`;
+      return `ethereum:${address}?value=${toSmallestUnit(cryptoAmount, 18)}&label=huntiez`;
     case "sol":
       return `solana:${address}?amount=${amount}&label=huntiez&message=${encodeURIComponent(orderId)}`;
     case "usdc": {

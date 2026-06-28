@@ -6,13 +6,15 @@ import type { CryptoInvoice, CryptoInvoiceLine } from "@/lib/cryptoInvoice";
 import {
   buildCryptoPaymentPolicy,
   formatLockCountdown,
-  formatUsdBoundsLabel,
   getRemainingLockMs,
   isInvoiceExpired,
   normalizeCryptoInvoice,
 } from "@/lib/cryptoPaymentPolicy";
-import type { CryptoAsset } from "@/data/purchasePayment";
-import { getCryptoAssetMeta } from "@/data/purchasePayment";
+import type { CryptoPaymentState } from "@/lib/cryptoPaymentState";
+import { createEmptyPaymentState } from "@/lib/cryptoPaymentState";
+import type { QuoteContactMethod } from "@/data/quote";
+import { purchaseCryptoPaidUiMessage } from "@/lib/purchaseEmail";
+import { getCryptoAssetMeta, type CryptoAsset } from "@/data/purchasePayment";
 import { CryptoLogo } from "@/components/purchase/CryptoLogos";
 
 const QR_DISPLAY_SIZE = 220;
@@ -23,6 +25,10 @@ type CryptoInvoicePanelProps = {
   projectTitle: string;
   scopeLabel: string;
   priceLabel: string;
+  contactMethod: QuoteContactMethod | null;
+  contactValue: string;
+  initialPayment?: CryptoPaymentState | null;
+  onPaymentStatusChange?: (status: CryptoPaymentState["status"]) => void;
 };
 
 async function loadImage(src: string): Promise<HTMLImageElement> {
@@ -160,6 +166,55 @@ function AssetTab({
   );
 }
 
+function CryptoPaymentSuccess({
+  projectTitle,
+  scopeLabel,
+  priceLabel,
+  orderId,
+  contactMethod,
+  contactValue,
+}: {
+  projectTitle: string;
+  scopeLabel: string;
+  priceLabel: string;
+  orderId: string;
+  contactMethod: QuoteContactMethod | null;
+  contactValue: string;
+}) {
+  const deliveryHint =
+    contactMethod === "email"
+      ? `confirmation sent to ${contactValue.trim()}`
+      : contactMethod === "discord"
+        ? `i'll reach you on discord (${contactValue.trim()})`
+        : null;
+
+  return (
+    <div className="border border-border px-4 py-8 sm:px-8 sm:py-10">
+      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-emerald-400">payment received</p>
+      <p className="mt-2 font-mono text-xs lowercase text-foreground/55">
+        {projectTitle} · {scopeLabel}
+      </p>
+      <p className="mt-1 font-pixel text-3xl lowercase tracking-wide text-[#0c50ff] sm:text-4xl">{priceLabel}</p>
+      <p className="mt-5 max-w-lg text-sm leading-relaxed text-foreground/75">
+        {purchaseCryptoPaidUiMessage(contactMethod)}
+      </p>
+      {deliveryHint ? <p className="mt-2 text-sm text-foreground/50">{deliveryHint}</p> : null}
+      <p className="mt-6 font-mono text-[11px] text-foreground/35">{orderId}</p>
+    </div>
+  );
+}
+
+function CryptoPaymentPendingBanner() {
+  return (
+    <div className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-4 sm:px-5">
+      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-400/80">payment pending</p>
+      <p className="mt-1 text-sm leading-relaxed text-amber-100/90">
+        payment detected - waiting for network confirmations.
+      </p>
+    </div>
+  );
+}
+
 function RateLockBanner({ invoice }: { invoice: CryptoInvoice }) {
   const [remainingMs, setRemainingMs] = useState(() => getRemainingLockMs(invoice));
   const expired = isInvoiceExpired(invoice) || remainingMs <= 0;
@@ -181,7 +236,7 @@ function RateLockBanner({ invoice }: { invoice: CryptoInvoice }) {
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-foreground/45">rate protection</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-foreground/45">rate lock</p>
           <p className="mt-1 text-sm leading-relaxed text-foreground/75">{policy.summary}</p>
         </div>
         <p
@@ -227,15 +282,70 @@ function CopyRow({ label, value, copyValue }: { label: string; value: string; co
 }
 
 export default function CryptoInvoicePanel(props: CryptoInvoicePanelProps) {
-  const { projectTitle, scopeLabel, priceLabel } = props;
+  const {
+    projectTitle,
+    scopeLabel,
+    priceLabel,
+    contactMethod,
+    contactValue,
+    initialPayment = null,
+    onPaymentStatusChange,
+  } = props;
   const invoice = normalizeCryptoInvoice(props.invoice);
   const [activeAsset, setActiveAsset] = useState(invoice.lines[0]?.asset ?? null);
+  const [payment, setPayment] = useState<CryptoPaymentState>(
+    initialPayment ?? createEmptyPaymentState(),
+  );
   const activeLine = invoice.lines.find((l) => l.asset === activeAsset) ?? invoice.lines[0];
+
+  useEffect(() => {
+    let active = true;
+
+    const poll = async () => {
+      try {
+        const res = await fetch(`/api/purchase/invoice?order=${encodeURIComponent(invoice.orderId)}&check=1`);
+        const json = (await res.json()) as { payment?: CryptoPaymentState };
+        if (active && json.payment) {
+          setPayment(json.payment);
+          onPaymentStatusChange?.(json.payment.status);
+        }
+      } catch {
+        /* retry on next interval */
+      }
+    };
+
+    void poll();
+    if (payment.status === "confirmed") {
+      return () => {
+        active = false;
+      };
+    }
+
+    const timer = window.setInterval(() => void poll(), 12_000);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+    };
+  }, [invoice.orderId, payment.status, onPaymentStatusChange]);
+
+  if (payment.status === "confirmed") {
+    return (
+      <CryptoPaymentSuccess
+        projectTitle={projectTitle}
+        scopeLabel={scopeLabel}
+        priceLabel={priceLabel}
+        orderId={invoice.orderId}
+        contactMethod={contactMethod}
+        contactValue={contactValue}
+      />
+    );
+  }
 
   if (!activeLine) return null;
 
   const activeMeta = getCryptoAssetMeta(activeLine.asset);
   const policy = buildCryptoPaymentPolicy(invoice);
+  const showCheckout = payment.status === "awaiting" || payment.status === "expired";
 
   return (
     <div className="border border-border">
@@ -251,46 +361,55 @@ export default function CryptoInvoicePanel(props: CryptoInvoicePanelProps) {
         <p className="font-mono text-[11px] text-foreground/40">{invoice.orderId}</p>
       </div>
 
-      <RateLockBanner invoice={invoice} />
+      {payment.status === "pending" ? (
+        <CryptoPaymentPendingBanner />
+      ) : (
+        <RateLockBanner invoice={invoice} />
+      )}
 
-      <div className="border-b border-border px-4 py-3 sm:px-5">
-        <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground/45">pay with</p>
-        <div className="flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {invoice.lines.map((line) => (
-            <AssetTab
-              key={line.asset}
-              line={line}
-              selected={line.asset === activeLine.asset}
-              onSelect={() => setActiveAsset(line.asset)}
-            />
-          ))}
+      {payment.status === "pending" ? (
+        <div className="px-4 py-6 sm:px-5">
+          <p className="text-sm leading-relaxed text-foreground/60">
+            no action needed — this page will update when your payment confirms.
+          </p>
         </div>
-      </div>
+      ) : null}
 
-      <div className="grid gap-5 px-4 py-4 sm:grid-cols-[auto_1fr] sm:items-start sm:gap-6 sm:px-5 sm:py-5">
-        <PaymentQr uri={activeLine.paymentUri} label={activeLine.symbol} asset={activeLine.asset} />
-
-        <div className="min-w-0">
-          <div className="divide-y divide-border">
-            <CopyRow label={policy.amountDueLabel} value={activeLine.amountDisplay} copyValue={activeLine.amount} />
-            <CopyRow
-              label={policy.acceptanceLabel}
-              value={activeLine.amountRangeDisplay}
-              copyValue={`${activeLine.minAmount} – ${activeLine.maxAmount}`}
-            />
-            <CopyRow label="wallet" value={activeLine.address} />
+      {showCheckout ? (
+        <>
+          <div className="border-b border-border px-4 py-3 sm:px-5">
+            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground/45">pay with</p>
+            <div className="flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {invoice.lines.map((line) => (
+                <AssetTab
+                  key={line.asset}
+                  line={line}
+                  selected={line.asset === activeLine.asset}
+                  onSelect={() => setActiveAsset(line.asset)}
+                />
+              ))}
+            </div>
           </div>
 
-          <p className="mt-3 text-xs leading-relaxed text-foreground/55">
-            send the amount due on {activeLine.title}
-            {activeMeta?.network ? ` (${activeMeta.network})` : ""}. accepted window:{" "}
-            <span className="text-foreground/80">{formatUsdBoundsLabel(invoice)}</span> (±
-            {invoice.tolerancePercent}%).
-          </p>
-          <p className="mt-2 text-xs leading-relaxed text-foreground/45">{policy.outsideRangeLabel}</p>
-          <p className="mt-2 font-mono text-[11px] text-foreground/40">memo: {invoice.orderId}</p>
-        </div>
-      </div>
+          <div className="grid gap-5 px-4 py-4 sm:grid-cols-[auto_1fr] sm:items-start sm:gap-6 sm:px-5 sm:py-5">
+            <PaymentQr uri={activeLine.paymentUri} label={activeLine.symbol} asset={activeLine.asset} />
+
+            <div className="min-w-0">
+              <div className="divide-y divide-border">
+                <CopyRow label={policy.amountDueLabel} value={activeLine.amountDisplay} copyValue={activeLine.amount} />
+                <CopyRow label="wallet" value={activeLine.address} />
+              </div>
+
+              <p className="mt-3 text-xs leading-relaxed text-foreground/55">
+                scan the qr or send exactly <span className="text-foreground/80">{activeLine.amountDisplay}</span> to the
+                wallet above on {activeLine.title}
+                {activeMeta?.network ? ` (${activeMeta.network})` : ""}.
+              </p>
+              <p className="mt-2 font-mono text-[11px] text-foreground/40">memo: {invoice.orderId}</p>
+            </div>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }

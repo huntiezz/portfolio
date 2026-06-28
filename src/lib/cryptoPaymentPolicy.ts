@@ -1,9 +1,8 @@
-import { formatPurchasePrice } from "@/data/purchase";
 import type { CryptoInvoice } from "@/lib/cryptoInvoice";
 
 export const CRYPTO_INVOICE_LOCK_MINUTES = Number(process.env.PURCHASE_CRYPTO_LOCK_MINUTES ?? 15) || 15;
 export const CRYPTO_PAYMENT_TOLERANCE_PERCENT =
-  Number(process.env.PURCHASE_CRYPTO_TOLERANCE_PERCENT ?? 1) || 1;
+  Number(process.env.PURCHASE_CRYPTO_TOLERANCE_PERCENT ?? 5) || 5;
 
 export type CryptoPaymentBounds = {
   minUsd: number;
@@ -18,8 +17,6 @@ export type CryptoPaymentPolicy = {
   expiresAt: string;
   summary: string;
   amountDueLabel: string;
-  acceptanceLabel: string;
-  outsideRangeLabel: string;
 };
 
 export function getCryptoPaymentToleranceUsd(expectedUsd: number): number {
@@ -27,18 +24,18 @@ export function getCryptoPaymentToleranceUsd(expectedUsd: number): number {
   if (!Number.isNaN(fixed) && fixed >= 0) return fixed;
 
   const pct = CRYPTO_PAYMENT_TOLERANCE_PERCENT / 100;
-  return Math.min(1, Math.max(0.01, expectedUsd * pct));
+  return expectedUsd * pct;
 }
 
 export function getCryptoPaymentUsdBounds(expectedUsd: number): CryptoPaymentBounds {
   const toleranceUsd = getCryptoPaymentToleranceUsd(expectedUsd);
   const pct = CRYPTO_PAYMENT_TOLERANCE_PERCENT / 100;
-  const minUsd = Math.max(expectedUsd * (1 - pct), expectedUsd - toleranceUsd);
-  const maxUsd = expectedUsd + toleranceUsd;
+  const fixed = Number(process.env.PURCHASE_CRYPTO_TOLERANCE_USD);
+  const usesFixedTolerance = !Number.isNaN(fixed) && fixed >= 0;
 
   return {
-    minUsd,
-    maxUsd,
+    minUsd: usesFixedTolerance ? Math.max(0, expectedUsd - toleranceUsd) : expectedUsd * (1 - pct),
+    maxUsd: usesFixedTolerance ? expectedUsd + toleranceUsd : expectedUsd * (1 + pct),
     toleranceUsd,
     tolerancePercent: CRYPTO_PAYMENT_TOLERANCE_PERCENT,
   };
@@ -90,15 +87,8 @@ export function buildCryptoPaymentPolicy(invoice: CryptoInvoice): CryptoPaymentP
     lockMinutes: invoice.lockMinutes,
     expiresAt: invoice.expiresAt,
     amountDueLabel: "amount due",
-    acceptanceLabel: "accepted range",
-    summary: `Rate locked for ${invoice.lockMinutes} minutes. Send the amount due - payments within ±${invoice.tolerancePercent}% count as paid to cover wallet rounding and rate movement while your transaction confirms.`,
-    outsideRangeLabel:
-      "Payments below the accepted range may need a top-up. Payments above it may be refunded for the difference.",
+    summary: `Rate locked for ${invoice.lockMinutes} minutes. Send the exact amount due before the lock expires.`,
   };
-}
-
-export function formatUsdBoundsLabel(invoice: CryptoInvoice): string {
-  return `${formatPurchasePrice(invoice.minUsd)} – ${formatPurchasePrice(invoice.maxUsd)}`;
 }
 
 export function normalizeCryptoInvoice(invoice: CryptoInvoice): CryptoInvoice {

@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 import type { PurchaseFormData } from "@/data/purchase";
 import type { CryptoInvoice } from "@/lib/cryptoInvoice";
+import type { CryptoPaymentState } from "@/lib/cryptoPaymentState";
 import { isValidOrderId } from "@/lib/purchaseOrderPaths";
 
 export type StoredPurchaseInvoice = {
@@ -10,6 +11,8 @@ export type StoredPurchaseInvoice = {
   data: PurchaseFormData;
   price: number;
   createdAt: string;
+  payment?: CryptoPaymentState;
+  paymentEmailsSent?: boolean;
 };
 
 const STORE_DIR = path.join(process.cwd(), ".data", "purchase-invoices");
