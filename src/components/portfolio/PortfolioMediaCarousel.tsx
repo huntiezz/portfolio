@@ -31,7 +31,7 @@ export default function PortfolioMediaCarousel({ items }: { items: PortfolioMedi
             type="button"
             onClick={() => prev()}
             aria-label="Previous slide"
-            className="btn-with-arrow absolute left-2 top-1/2 z-[2] hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-sm border border-border bg-background/95 text-foreground backdrop-blur-sm transition hover:border-[color:var(--accent-blue)] hover:text-[color:var(--accent-blue)] md:flex"
+            className="btn-with-arrow absolute left-2 top-1/2 z-[2] hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-sm border border-border bg-background text-foreground transition-colors duration-150 hover:border-[color:var(--accent-blue)] hover:text-[color:var(--accent-blue)] md:flex"
           >
             <ArrowLeft className="btn-arrow btn-arrow-left h-4 w-4" aria-hidden />
           </button>
@@ -39,7 +39,7 @@ export default function PortfolioMediaCarousel({ items }: { items: PortfolioMedi
             type="button"
             onClick={() => next()}
             aria-label="Next slide"
-            className="btn-with-arrow absolute right-2 top-1/2 z-[2] hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-sm border border-border bg-background/95 text-foreground backdrop-blur-sm transition hover:border-[color:var(--accent-blue)] hover:text-[color:var(--accent-blue)] md:flex"
+            className="btn-with-arrow absolute right-2 top-1/2 z-[2] hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-sm border border-border bg-background text-foreground transition-colors duration-150 hover:border-[color:var(--accent-blue)] hover:text-[color:var(--accent-blue)] md:flex"
           >
             <ArrowRight className="btn-arrow h-4 w-4" aria-hidden />
           </button>

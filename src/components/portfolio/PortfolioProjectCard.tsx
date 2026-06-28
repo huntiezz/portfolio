@@ -70,16 +70,21 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
       </div>
 
       <Modal open={detailOpen} setOpen={setDetailOpen}>
-        <div className="space-y-6 lowercase text-foreground">
+        <div className="space-y-6 lowercase">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="font-pixel text-3xl text-foreground sm:text-4xl">{entry.portfolioTitle}</h2>
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--hero-copy-faint)]">
+                {entry.timeline}
+              </p>
+              <h2 className="mt-2 font-pixel text-3xl leading-none tracking-wide text-[color:var(--hero-copy-title)] sm:text-4xl">
+                {entry.portfolioTitle}
+              </h2>
               {safeLink ? (
                 <Link
                   href={safeLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-with-arrow mt-2 inline-flex items-center gap-2 text-sm text-[color:var(--accent-blue)] underline decoration-[color:var(--accent-blue)] underline-offset-2"
+                  className="btn-with-arrow mt-3 inline-flex items-center gap-2 text-sm text-[color:var(--hero-phosphor)] underline decoration-[color:var(--hero-phosphor)] underline-offset-2"
                 >
                   visit website
                   <span className="btn-arrow btn-arrow-external" aria-hidden>
@@ -95,7 +100,7 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-with-arrow inline-flex items-center gap-2 text-sm text-[color:var(--accent-blue)] underline decoration-[color:var(--accent-blue)] underline-offset-2"
+                        className="btn-with-arrow inline-flex items-center gap-2 text-sm text-[color:var(--hero-phosphor)] underline decoration-[color:var(--hero-phosphor)] underline-offset-2"
                       >
                         {item.label}
                         <span className="btn-arrow btn-arrow-external" aria-hidden>
@@ -110,7 +115,7 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
           </div>
 
           {slides.length > 0 ? (
-            <div className="relative w-full">
+            <div className="relative w-full overflow-hidden rounded-md border border-[color:var(--card-border)] bg-[color:var(--hero-about-bg)]">
               <PortfolioMediaCarousel items={slides} />
             </div>
           ) : null}
@@ -118,23 +123,25 @@ export default function PortfolioProjectCard({ entry }: { entry: PortfolioCardDa
           <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr]">
             <div className="space-y-4">
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground/55">role</h3>
-                <p className="mt-1 text-lg text-foreground/90">{entry.role}</p>
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--hero-copy-faint)]">
+                  role
+                </h3>
+                <p className="mt-1 text-lg text-[color:var(--hero-copy-title)]">{entry.role}</p>
               </div>
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground/55">
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--hero-copy-faint)]">
                   timeline
                 </h3>
-                <p className="mt-1 text-lg text-foreground/90">{entry.timeline}</p>
+                <p className="mt-1 text-lg text-[color:var(--hero-copy-title)]">{entry.timeline}</p>
               </div>
             </div>
-            <div className="hidden h-auto w-px bg-border lg:block" aria-hidden />
-            <hr className="border-border lg:hidden" />
+            <div className="hidden h-auto w-px bg-[color:var(--card-border)] lg:block" aria-hidden />
+            <hr className="border-[color:var(--card-border)] lg:hidden" />
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground/55">
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--hero-copy-faint)]">
                 overview
               </h3>
-              <div className="mt-3 max-h-[18rem] space-y-3 overflow-y-auto rounded-sm border border-border bg-muted/10 p-3 text-[0.95rem] leading-relaxed text-foreground/85">
+              <div className="mt-3 max-h-[18rem] space-y-3 overflow-y-auto rounded-sm border border-[color:var(--card-border)] bg-[color:var(--hero-about-bg)] p-3 text-[0.95rem] leading-relaxed text-[color:var(--hero-copy-body)]">
                 {entry.bullets.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
@@ -182,7 +189,7 @@ function PortfolioCover({
             draggable={false}
             src={src}
             onError={() => setFailed(true)}
-            className={twMerge("max-h-full max-w-full object-contain duration-300", className)}
+            className={twMerge("max-h-full max-w-full object-contain", className)}
           />
         </div>
       ) : (
@@ -191,7 +198,7 @@ function PortfolioCover({
           draggable={false}
           src={src}
           onError={() => setFailed(true)}
-          className={twMerge("h-full w-full object-cover duration-300", className)}
+          className={twMerge("h-full w-full object-cover", className)}
         />
       )}
     </div>

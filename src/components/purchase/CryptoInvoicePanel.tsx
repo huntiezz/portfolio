@@ -370,7 +370,7 @@ export default function CryptoInvoicePanel(props: CryptoInvoicePanelProps) {
       {payment.status === "pending" ? (
         <div className="px-4 py-6 sm:px-5">
           <p className="text-sm leading-relaxed text-foreground/60">
-            no action needed — this page will update when your payment confirms.
+            no action needed - this page will update when your payment confirms.
           </p>
         </div>
       ) : null}

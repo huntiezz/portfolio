@@ -16,7 +16,7 @@ export default function Home() {
       <div className="flex flex-1 flex-col">
         <main className="relative min-h-[calc(100dvh-11rem)] flex-1 overflow-hidden sm:min-h-[calc(100dvh-10rem)]">
           <div className="absolute inset-0">
-            <div className="dither-container relative h-full w-full overflow-hidden">
+            <div className="dither-container relative h-full w-full overflow-hidden bg-[var(--hero-void-canvas)]">
               <div className="relative h-full w-full">
                 <DitherFluidCanvas />
               </div>

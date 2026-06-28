@@ -43,6 +43,8 @@
     --card-border: rgba(15, 23, 42, 0.1);
     --card-ring: rgba(15, 23, 42, 0.05);
     --card-inset: rgba(255, 255, 255, 0.65);
+    --theme-wipe-duration: 0.65s;
+    --theme-wipe-ease: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
@@ -111,12 +113,16 @@ body {
   mix-blend-mode: normal;
 }
 
+::view-transition-new(root) {
+  will-change: clip-path;
+}
+
 [data-transition-direction="dark-to-light"]::view-transition-new(root) {
-  animation: wipe-tl-br 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: wipe-tl-br var(--theme-wipe-duration) var(--theme-wipe-ease) both;
 }
 
 [data-transition-direction="light-to-dark"]::view-transition-new(root) {
-  animation: wipe-br-tl 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: wipe-br-tl var(--theme-wipe-duration) var(--theme-wipe-ease) both;
 }
 
 @keyframes wipe-tl-br {
@@ -136,6 +142,39 @@ body {
 
   to {
     clip-path: circle(150% at 100% 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-transition-direction="dark-to-light"]::view-transition-new(root),
+  [data-transition-direction="light-to-dark"]::view-transition-new(root) {
+    animation: none;
+  }
+
+  ::view-transition-new(root) {
+    will-change: auto;
+  }
+}
+
+.theme-toggle-icon {
+  animation: theme-icon-in 0.2s ease-out;
+}
+
+@keyframes theme-icon-in {
+  from {
+    opacity: 0.4;
+    transform: rotate(-45deg) scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle-icon {
+    animation: none;
   }
 }
 
@@ -179,22 +218,22 @@ body {
 @layer components {
   .btn-arrow {
     shrink: 0;
-    transition: transform 200ms ease-out;
+    transition: transform 150ms ease-out;
   }
 
   .btn-with-arrow:hover .btn-arrow,
   .btn-with-arrow:focus-visible .btn-arrow {
-    transform: translateX(0.25rem);
+    transform: translate3d(0.25rem, 0, 0);
   }
 
   .btn-with-arrow:hover .btn-arrow-left,
   .btn-with-arrow:focus-visible .btn-arrow-left {
-    transform: translateX(-0.25rem);
+    transform: translate3d(-0.25rem, 0, 0);
   }
 
   .btn-with-arrow:hover .btn-arrow-external,
   .btn-with-arrow:focus-visible .btn-arrow-external {
-    transform: translate(0.125rem, -0.125rem);
+    transform: translate3d(0.125rem, -0.125rem, 0);
   }
 
   @media (prefers-reduced-motion: reduce) {
