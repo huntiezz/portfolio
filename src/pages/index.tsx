@@ -33,7 +33,7 @@ export default function Home() {
               huntiez
             </h1>
             <h2 className="mt-4 font-pixel text-2xl lowercase tracking-wide text-[#1c1c1c] sm:text-3xl dark:text-[#eeeeee] dark:[text-shadow:0_2px_14px_rgba(0,0,0,0.95),0_0_1px_rgba(0,0,0,1)]">
-              dev &amp; designer
+              dev &amp; web designer
             </h2>
             <p className="mt-8 max-w-xl text-xl leading-relaxed text-[#1c1c1c] sm:text-2xl dark:text-[#eeeeee] dark:[text-shadow:0_2px_12px_rgba(0,0,0,0.95),0_0_1px_rgba(0,0,0,1)]">
               hey - i&apos;m hunter. i build fast web products, ship experiments, and care about motion, ux,
