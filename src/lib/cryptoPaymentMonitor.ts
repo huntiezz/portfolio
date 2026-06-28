@@ -90,7 +90,7 @@ export async function checkInvoicePayment(record: StoredPurchaseInvoice): Promis
     if (expired && previous.txHash) {
       return {
         ...previous,
-        status: previous.status === "confirmed" ? "confirmed" : "pending",
+        status: "pending",
         updatedAt: new Date().toISOString(),
         logs,
       };
@@ -115,14 +115,14 @@ export async function checkInvoicePayment(record: StoredPurchaseInvoice): Promis
     );
   }
 
-  if (status === "pending" && previous.status !== "confirmed") {
+  if (status === "pending" && previous.status !== "pending") {
     logs = appendLog(
       logs,
       `payment detected - waiting for confirmations (${tx.confirmations}/${required.confirmed})`,
     );
   }
 
-  if (status === "confirmed" && previous.status !== "confirmed") {
+  if (status === "confirmed") {
     logs = appendLog(logs, "payment confirmed");
   }
 

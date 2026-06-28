@@ -131,7 +131,7 @@ function fluidLite(x: number, y: number, t: number): number {
   v *= 0.68 + 0.32 * Math.pow(clamp(1 - d * 0.68, 0, 1), 0.95);
 
   const bottomLeft = Math.pow(clamp(Math.hypot(x * 1.1, (1 - y) * 0.9), 0, 1), 0.82);
-  v *= 0.5 + 0.5 * bottomLeft;
+  v *= 0.1 + 0.9 * bottomLeft;
 
   return clamp(v, 0, 1);
 }
@@ -167,7 +167,7 @@ function fluidHigh(x: number, y: number, t: number): number {
   v *= 0.68 + 0.32 * Math.pow(clamp(1 - d * 0.68, 0, 1), 0.95);
 
   const bottomLeft = Math.pow(clamp(Math.hypot(x * 1.1, (1 - y) * 0.9), 0, 1), 0.82);
-  v *= 0.5 + 0.5 * bottomLeft;
+  v *= 0.1 + 0.9 * bottomLeft;
 
   return clamp(v, 0, 1);
 }
@@ -244,23 +244,24 @@ function fitCanvasToParent(
 
   let IW = clamp(Math.round(w / cell), minW, maxW);
   let cellDisplay = w / IW;
-  let IH = Math.ceil(h / cellDisplay);
+  let IH = Math.floor(h / cellDisplay);
 
   while (IH < ihMin && IW < maxW) {
     IW++;
     cellDisplay = w / IW;
-    IH = Math.ceil(h / cellDisplay);
+    IH = Math.floor(h / cellDisplay);
   }
 
-  IH = Math.max(ihMin, IH);
+  IH = Math.max(1, IH);
 
   canvas.width = IW;
   canvas.height = IH;
 
+  const cssHeight = IH * cellDisplay;
   canvas.style.width = "100%";
-  canvas.style.height = `${h}px`;
+  canvas.style.height = `${cssHeight}px`;
 
-  return { cssHeight: h };
+  return { cssHeight };
 }
 
 function paint(
@@ -355,24 +356,29 @@ export default function DitherFluidCanvas() {
       paint(el, STATIC_T, tier, scratch, hiRef.current, loRef.current);
     };
 
-    let themeRepaintTimer: ReturnType<typeof setTimeout> | null = null;
-    const THEME_REPAINT_DELAY_MS = 680;
-
+    let themeRepaintRaf1 = 0;
+    let themeRepaintRaf2 = 0;
     const cancelThemeRepaint = () => {
-      if (themeRepaintTimer) {
-        clearTimeout(themeRepaintTimer);
-        themeRepaintTimer = null;
+      if (themeRepaintRaf1) {
+        cancelAnimationFrame(themeRepaintRaf1);
+        themeRepaintRaf1 = 0;
+      }
+      if (themeRepaintRaf2) {
+        cancelAnimationFrame(themeRepaintRaf2);
+        themeRepaintRaf2 = 0;
       }
     };
 
     const queueThemeRepaint = () => {
       cancelThemeRepaint();
-      const delay = mqReduce?.matches ? 0 : THEME_REPAINT_DELAY_MS;
-      themeRepaintTimer = setTimeout(() => {
-        themeRepaintTimer = null;
-        syncDitherPalette();
-        renderStatic();
-      }, delay);
+      themeRepaintRaf1 = requestAnimationFrame(() => {
+        themeRepaintRaf1 = 0;
+        themeRepaintRaf2 = requestAnimationFrame(() => {
+          themeRepaintRaf2 = 0;
+          syncDitherPalette();
+          renderStatic();
+        });
+      });
     };
 
     const themeObserver = new MutationObserver(queueThemeRepaint);
@@ -420,7 +426,7 @@ export default function DitherFluidCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none absolute inset-0 h-full w-full"
+      className="pointer-events-none absolute bottom-0 left-0 w-full"
       style={{ imageRendering: "pixelated" }}
       aria-hidden
     />
