@@ -1,5 +1,5 @@
 import { formatPurchasePrice } from "@/data/purchase";
-import type { CryptoInvoice, CryptoInvoiceLine } from "@/lib/cryptoInvoice";
+import type { CryptoInvoice } from "@/lib/cryptoInvoice";
 
 export const CRYPTO_INVOICE_LOCK_MINUTES = Number(process.env.PURCHASE_CRYPTO_LOCK_MINUTES ?? 15) || 15;
 export const CRYPTO_PAYMENT_TOLERANCE_PERCENT =
