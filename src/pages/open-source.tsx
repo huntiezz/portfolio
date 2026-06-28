@@ -1,56 +1,100 @@
 import Link from "next/link";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import GitHubMarkIcon from "@/components/GitHubMarkIcon";
-import PortfolioLayout from "@/components/portfolio/PortfolioLayout";
+import SiteFrame from "@/components/portfolio/SiteFrame";
+import SiteHeader from "@/components/portfolio/SiteHeader";
+import SiteFooter from "@/components/portfolio/SiteFooter";
 import OpenSourceProjectCard from "@/components/portfolio/OpenSourceProjectCard";
-import { OPEN_SOURCE_PROJECTS } from "@/data/openSource";
+import {
+  GITHUB_PROFILE_REPOS_URL,
+  OPEN_SOURCE_SECTIONS,
+  getOpenSourceSectionProjects,
+} from "@/data/openSource";
+import {
+  quoteBody,
+  quoteBtnBase,
+  quoteContinueArrow,
+  quoteContinueBtn,
+  quoteGrid,
+  quoteHeading,
+  quoteKicker,
+} from "@/components/quote/quoteUi";
 
 export default function OpenSourcePage() {
   return (
-    <PortfolioLayout>
-      <article className="mx-auto max-w-4xl pb-12">
-        <header className="border-b border-border pb-8 md:pb-10">
-          <p className="font-mono text-[11px] uppercase tracking-[0.38em] text-foreground/50">
-            downloads & repos
-          </p>
-          <h1 className="mt-4 font-pixel text-6xl lowercase leading-none tracking-wide text-foreground sm:text-[5.25rem] sm:leading-none">
-            open source
-          </h1>
-          <p className="mt-6 max-w-2xl text-pretty text-lg lowercase leading-relaxed tracking-wide text-foreground/90 sm:text-xl">
-            public <span className="normal-case">GitHub</span> work with clone snippets and archive zips. for
-            roles and shipped client builds see{" "}
-            <Link
-              href="/projects"
-              className="text-foreground underline decoration-foreground/35 underline-offset-[5px] transition-colors hover:text-[color:var(--accent-blue)] hover:decoration-[color:var(--accent-blue)]"
+    <SiteFrame>
+      <SiteHeader />
+      <main className="flex min-h-0 flex-1 flex-col">
+        <div className="mx-auto w-full max-w-4xl flex-1 px-6 py-12 sm:px-10 sm:py-20">
+          <header>
+            <p className={quoteKicker}>public work</p>
+            <h1 className={quoteHeading}>open source</h1>
+            <p className={quoteBody}>
+              repos you can clone, fork, or study on <span className="normal-case">GitHub</span>. for shipped
+              client work and roles, see{" "}
+              <Link
+                href="/projects"
+                className="text-[#0c50ff] underline decoration-[#0c50ff] underline-offset-2"
+              >
+                projects
+              </Link>
+              .
+            </p>
+            <a
+              href={GITHUB_PROFILE_REPOS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${quoteBtnBase} ${quoteContinueBtn} mt-10 inline-flex no-underline`}
             >
-              projects
-            </Link>
-            .
-          </p>
-        </header>
+              <GitHubMarkIcon className="h-4 w-4 shrink-0" aria-hidden />
+              all repos on github
+              <ArrowRight className={quoteContinueArrow} aria-hidden />
+            </a>
+          </header>
 
-        <ul className="mt-8 space-y-5 md:space-y-6">
-          {OPEN_SOURCE_PROJECTS.map((project) => (
-            <OpenSourceProjectCard key={project.id} project={project} />
-          ))}
-        </ul>
+          <div className="mt-16 space-y-16 sm:mt-20 sm:space-y-20">
+            {OPEN_SOURCE_SECTIONS.map((section) => {
+              const projects = getOpenSourceSectionProjects(section);
 
-        <footer className="mt-14 text-center">
-          <a
-            href="https://github.com/huntiezz?tab=repositories&q=&type=public"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2.5 border border-border px-8 py-3.5 text-base tracking-wide text-foreground transition-colors hover:border-[color:var(--accent-blue)] hover:text-[color:var(--accent-blue)]"
-            style={{
-              clipPath: "polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)",
-            }}
-          >
-            <GitHubMarkIcon className="h-5 w-5 shrink-0 text-foreground/90" aria-hidden />
-            <span className="lowercase">
-              all public repos on <span className="normal-case">github</span>
-            </span>
-          </a>
-        </footer>
-      </article>
-    </PortfolioLayout>
+              return (
+                <section key={section.id} aria-labelledby={`opensource-${section.id}`}>
+                  <p className={quoteKicker} id={`opensource-${section.id}`}>
+                    {section.kicker}
+                  </p>
+                  <h2 className="mt-3 font-pixel text-3xl lowercase leading-[1.05] tracking-wide text-foreground sm:text-4xl">
+                    {section.heading}
+                  </h2>
+                  <p className="mt-3 max-w-xl text-sm text-foreground/60 sm:text-base">{section.hint}</p>
+
+                  <ul className={`${quoteGrid} list-none`}>
+                    {projects.map((project) => (
+                      <li key={project.id}>
+                        <OpenSourceProjectCard project={project} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              );
+            })}
+          </div>
+
+          <footer className="mt-16 border-t border-border pt-10 sm:mt-20">
+            <p className="max-w-xl text-sm lowercase leading-relaxed text-foreground/55">
+              more experiments and forks live on the profile. star or open an issue if something is useful.
+            </p>
+            <a
+              href={GITHUB_PROFILE_REPOS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${quoteBtnBase} ${quoteContinueBtn} mt-8 inline-flex no-underline`}
+            >
+              view on github
+              <ArrowUpRight className={quoteContinueArrow} aria-hidden />
+            </a>
+          </footer>
+        </div>
+      </main>
+      <SiteFooter />
+    </SiteFrame>
   );
 }

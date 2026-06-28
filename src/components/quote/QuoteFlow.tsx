@@ -288,6 +288,19 @@ function ContinueButton({
   );
 }
 
+function WaveEmoji() {
+  return (
+    <motion.span
+      className="inline-block origin-[70%_70%]"
+      animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }}
+      transition={{ duration: 1.15, repeat: Infinity, repeatDelay: 0.85, ease: "easeInOut" }}
+      aria-hidden
+    >
+      👋
+    </motion.span>
+  );
+}
+
 function NameStep({
   data,
   onPatch,
@@ -299,7 +312,12 @@ function NameStep({
 }) {
   return (
     <>
-      <h1 className={quoteHeading}>hey there 👋 what&apos;s your name?</h1>
+      <h1 className={quoteHeading}>
+        <span className="block">
+          hey there <WaveEmoji />
+        </span>
+        <span className="block">whats your name?</span>
+      </h1>
       <p className={quoteBody}>let&apos;s get a quote together. it&apos;ll take about a minute.</p>
       <label className="mt-10 block max-w-lg">
         <span className="sr-only">your name</span>

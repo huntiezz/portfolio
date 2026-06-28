@@ -1,169 +1,111 @@
-"use client";
-
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import type { OpenSourceProject } from "@/data/openSource";
-import { githubArchiveZipUrl, gitCloneHttps } from "@/data/openSource";
-import { btnMuted, cardShell, CUT_CORNER_BTN } from "@/components/portfolio/cardUi";
-import { STACK_CHIP_DISPLAY, stackIconSrc } from "@/lib/stackTechIcons";
+import { githubArchiveZipUrl } from "@/data/openSource";
+import { stackIconSrc } from "@/lib/stackTechIcons";
+import {
+  quoteCardDescClass,
+  quoteCardIconClass,
+  quoteSecondaryBtn,
+  quoteBtnBase,
+} from "@/components/quote/quoteUi";
+
+const openSourceCard =
+  "group relative flex h-full flex-col items-start gap-3 border border-border bg-transparent p-5 text-left transition-colors duration-200 hover:border-[#0c50ff] sm:gap-3.5 sm:p-6";
 
 function StackChip({ tag }: { tag: string }) {
   const icon = stackIconSrc(tag);
-  const iconsOnly = STACK_CHIP_DISPLAY === "icons";
-  const showLabel = !iconsOnly || !icon;
 
   return (
-    <span
-      title={tag}
-      className={`inline-flex items-center rounded-sm border border-border bg-muted/10 font-mono text-[11px] lowercase tracking-wide text-foreground/70 ${icon ? "gap-2 px-2 py-1.5" : "px-2.5 py-1"}`}
-    >
-      {icon ? (
-        <img
-          src={icon}
-          alt=""
-          width={20}
-          height={20}
-          draggable={false}
-          className="h-5 w-5 shrink-0 object-contain"
-        />
-      ) : null}
-      <span className={showLabel ? undefined : "sr-only"}>{tag}</span>
+    <span className="inline-flex items-center gap-1.5 border border-border px-2 py-1 font-mono text-[10px] lowercase tracking-wide text-foreground/55">
+      {icon ? <img src={icon} alt="" width={14} height={14} className="h-3.5 w-3.5 object-contain" /> : null}
+      {tag}
     </span>
-  );
-}
-
-function CloneCommandRow({ command }: { command: string }) {
-  const [copied, setCopied] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const copy = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(command);
-      setCopied(true);
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => setCopied(false), 2000);
-    } catch {
-      setCopied(false);
-    }
-  }, [command]);
-
-  useEffect(
-    () => () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    },
-    [],
-  );
-
-  return (
-    <div className="mt-4 max-w-full">
-      <p className="mb-2 font-mono text-[11px] lowercase tracking-[0.14em] text-foreground/45">clone</p>
-      <div className="flex overflow-hidden rounded-sm border border-border bg-muted/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus-within:border-[color:var(--hero-phosphor)]/35 focus-within:ring-1 focus-within:ring-[color:var(--hero-phosphor)]/25 dark:bg-[color:var(--hero-about-bg)]/90 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-        <input
-          readOnly
-          value={command}
-          onClick={() => void copy()}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              void copy();
-            }
-          }}
-          aria-label="Git clone command, click to copy"
-          className="min-w-0 flex-1 cursor-pointer overflow-x-auto border-0 bg-transparent px-3 py-2.5 font-mono text-[12px] leading-snug text-[color:var(--hero-phosphor)] outline-none selection:bg-[color:var(--hero-phosphor)]/20 dark:text-[color:var(--hero-phosphor)]"
-        />
-        <button
-          type="button"
-          onClick={() => void copy()}
-          className="flex shrink-0 items-center justify-center border-l border-border px-3 py-2 text-foreground/55 transition-colors hover:bg-muted/30 hover:text-[color:var(--hero-phosphor)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--accent-blue)]"
-          aria-label={copied ? "Copied" : "Copy command"}
-        >
-          {copied ? (
-            <Check className="h-4 w-4" strokeWidth={2} aria-hidden />
-          ) : (
-            <Copy className="h-4 w-4" strokeWidth={2} aria-hidden />
-          )}
-        </button>
-      </div>
-      <p
-        className="mt-1.5 min-h-[1rem] font-mono text-[10px] lowercase tracking-wide text-foreground/35"
-        aria-live="polite"
-      >
-        {copied ? "copied to clipboard" : "click to copy"}
-      </p>
-    </div>
   );
 }
 
 export default function OpenSourceProjectCard({ project }: { project: OpenSourceProject }) {
   const branch = project.defaultBranch ?? "main";
   const zipHref = githubArchiveZipUrl(project.repoUrl, branch);
-  const cloneLine = gitCloneHttps(project.repoUrl);
 
   return (
-    <li className="list-none">
-      <div className={`${cardShell} md:flex md:items-start md:justify-between md:gap-8`}>
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <h2 className="font-pixel text-[2rem] lowercase tracking-wide text-foreground sm:text-[2.35rem]">
-              {project.name}
-            </h2>
-            <span className="font-mono text-[12px] lowercase tracking-[0.12em] text-foreground/45">
-              {project.tagline}
-            </span>
-            {project.license ? (
-              <span className="rounded-sm border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/50">
-                {project.license}
-              </span>
-            ) : null}
-          </div>
-          <p className="mt-3 max-w-2xl text-base lowercase leading-relaxed tracking-wide text-foreground/88 md:text-[1.05rem] md:leading-relaxed">
-            {project.description}
-          </p>
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {project.stack.map((tag) => (
-              <li key={tag}>
-                <StackChip tag={tag} />
-              </li>
-            ))}
-          </ul>
-          {cloneLine ? <CloneCommandRow command={cloneLine} /> : null}
+    <article className={openSourceCard}>
+      <div className="flex w-full items-start justify-between gap-3">
+        <div className={quoteCardIconClass(false)}>
+          <Github className="h-5 w-5" strokeWidth={1.5} aria-hidden />
         </div>
+        {project.license ? (
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-foreground/45">
+            {project.license}
+          </span>
+        ) : null}
+      </div>
 
-        <div className="mt-4 flex w-full shrink-0 flex-col gap-2.5 md:mt-0 md:w-auto md:min-w-[12rem]">
-          <Link
-            href={project.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${btnMuted} text-center`}
-            style={{ clipPath: CUT_CORNER_BTN }}
-          >
-            source
-          </Link>
+      <div className="space-y-1.5">
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+          <h3 className="font-pixel text-xl lowercase leading-none tracking-wide sm:text-2xl">
+            {project.name}
+          </h3>
+          <span className="font-mono text-[11px] lowercase tracking-wide text-foreground/45">
+            {project.tagline}
+          </span>
+        </div>
+        <p className={`${quoteCardDescClass(false)} line-clamp-3`}>{project.description}</p>
+      </div>
+
+      <ul className="flex flex-wrap gap-1.5">
+        {project.stack.map((tag) => (
+          <li key={tag}>
+            <StackChip tag={tag} />
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-auto flex w-full flex-col gap-2 pt-1">
+        <Link
+          href={project.repoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${quoteBtnBase} ${quoteSecondaryBtn} w-full no-underline`}
+        >
+          view on github
+          <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden />
+        </Link>
+        <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
+          {project.homepage ? (
+            <Link
+              href={project.homepage}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 lowercase text-[#0c50ff] underline decoration-[#0c50ff] underline-offset-2"
+            >
+              live site
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          ) : null}
           {zipHref ? (
             <a
               href={zipHref}
               download
-              className={`${btnMuted} text-center`}
-              style={{ clipPath: CUT_CORNER_BTN }}
+              className="lowercase text-foreground/55 underline decoration-foreground/25 underline-offset-2 transition-colors hover:text-[#0c50ff] hover:decoration-[#0c50ff]"
             >
               download zip
             </a>
           ) : null}
-          {project.extras?.map((x) => (
+          {project.extras?.map((extra) => (
             <Link
-              key={x.href}
-              href={x.href}
+              key={extra.href}
+              href={extra.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${btnMuted} text-center`}
-              style={{ clipPath: CUT_CORNER_BTN }}
+              className="inline-flex items-center gap-1 lowercase text-foreground/55 underline decoration-foreground/25 underline-offset-2 transition-colors hover:text-[#0c50ff] hover:decoration-[#0c50ff]"
             >
-              {x.label}
+              {extra.label}
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
           ))}
         </div>
       </div>
-    </li>
+    </article>
   );
 }
