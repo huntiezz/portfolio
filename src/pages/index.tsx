@@ -24,7 +24,7 @@ export default function Home() {
           </div>
 
           <div
-            className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-tr from-black/35 via-black/8 to-transparent dark:from-black/45 dark:via-black/12"
+            className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-tr from-black/20 via-transparent to-transparent dark:from-black/25"
             aria-hidden
           />
 
